@@ -1,103 +1,65 @@
-# CPPGE (C++ Game Engine Prototype)
 
-CPPGE is a simple terminal-based RPG-style game project made in C++.
-It is a beginner game engine prototype built while learning programming and experimenting with game mechanics.
+# 🌌 THE MULTIVERSE (C++ Project)
+
+Welcome to **THE MULTIVERSE**, a console-based C++ game collection created as a fun experimental project.  
+It includes multiple mini-games, interactive story sections, and simple RPG-style battles.
 
 ---
 
-## 👨‍💻 About the Developer
+## 📌 About the Project
 
-This project was created by a 5th-grade student (Owen) who is actively learning programming and game development.
+This project is a **beta-stage multi-game program** built in C++.  
+It runs in the terminal and uses text input/output for gameplay.
 
 The goal of this project is to:
-- Learn how real games are structured
 - Practice C++ programming
-- Build interactive systems (menus, battles, randomness)
-- Turn imagination into working code
+- Build simple game logic systems
+- Experiment with interactive storytelling
+- Learn structuring larger programs
 
 ---
 
-## 🎮 What the Project Does
+## 🎮 Features
 
-CPPGE is a text-based game system that includes:
-
-### Main Features:
-- Main menu system
-- Game launcher (BETA mode)
-- Turn-based combat system
-- Enemy encounters (e.g., "Tired Robot")
-- Player HP system (tracked through gameplay)
-- Enemy HP system
-- Fight / Run choices
-- Random survival chance system
-- Story-style progression
-- Credits screen
+- 🧠 Guessing game
+- 👤 User-specific interactions
+- 🤖 Simple AI chat system (beta)
+- ⚔️ RPG-style battle system
+- 🔀 Multiple game menu selection
+- 💬 Fun character-based dialogue sections
+- 🎲 Randomized outcomes (basic RNG)
 
 ---
 
-## ⚔️ Gameplay Concept
+## 🕹️ How to Run
 
-In the current version, the player:
-- Enters a battle with a robot enemy
-- Chooses actions like Fight or Run
-- Goes through multiple battle stages
-- Can survive or lose depending on choices and randomness
-- May receive rewards (like BANANA items)
-
+### Requirements:
+- C++ compiler (g++, clang++, or Visual Studio)
+- C++11 or higher
 ---
 
-## 🧠 Key Concepts Used
-
-This project helped explore:
-- Variables and logic
-- If/else decision making
-- Loops
-- Random number generation
-- Time delays for gameplay feel
-- Basic game state design
+## ⚠️ Notes
+This is a beta project, so bugs and unfinished features may exist.
+Input is case-sensitive in some areas.
+The program is text-based (no GUI).
 
 ---
+## 👨‍💻 Author
 
-## 🚧 Current Status
+- Created by Owen
+---
+## 📜 License
 
-This is an early prototype (BETA version).
-
-Some systems are:
-- Partially hard-coded (battle stages)
-- Still being improved into reusable systems
-- Under active development
-
-Planned improvements:
-- Real battle loop system
-- Proper HP tracking using variables
-- More enemies and items
-- Cleaner menu structure
-- Expanded RPG mechanics
+- You can use it for learning or personal use only.
+- You are NOT allowed to sell it or use it for money.
+- You can NOT take it for yourself.
+- Please give credit if you share it.
 
 ---
-
-## 🔮 Future Ideas
-
-- Upgrade system (XP / levels)
-- Inventory system
-- Multiple enemy types
-- More complex combat actions
-- Fully loop-based battle engine
-- Improved game structure using functions
-
----
-
-## ⚙️ How to Run
-
-Compile using g++:
-
-```bash
-g++ test.cpp -o test
-./test
-
-💬 Notes from the Developer
-
-This project started as a simple menu program and evolved into a small RPG-style game system.
-
-It represents learning through experimentation, trial-and-error, and improving step by step.
-
+## 🚀 Future Ideas
+- Save system
+- Better combat mechanics
+- More RPG choices
+- Improved AI system
+- Cleaner UI/menu system
+- Better Code quility
