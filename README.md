@@ -36,6 +36,7 @@ The goal of this project is to:
 ### Requirements:
 - C++ compiler (g++, clang++, or Visual Studio)
 - C++11 or higher
+- CMAKE
 ---
 
 ## ⚠️ Notes
