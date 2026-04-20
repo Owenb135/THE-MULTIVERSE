@@ -22,7 +22,7 @@ endif()
 # --- CPack Configuration ---
 set(CPACK_PACKAGE_NAME "OwenMultiverse")
 set(CPACK_PACKAGE_VERSION "1.2.0")
-set(CPACK_PACKAGE_CONTACT "Owen at XOVERI")
+set(CPACK_PACKAGE_CONTACT "Owen")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Owen's C++ Multiverse Game")
 
 # Essential for Ubuntu/Linux installers
