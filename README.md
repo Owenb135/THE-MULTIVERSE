@@ -28,6 +28,7 @@ The goal of this project is to:
 - 🔀 Multiple game menu selection
 - 💬 Fun character-based dialogue sections
 - 🎲 Randomized outcomes (basic RNG)
+- Music (Coming Soom!)
 
 ---
 
@@ -47,7 +48,9 @@ The program is text-based (no GUI).
 ---
 ## 👨‍💻 Author
 
-- Created by Owen
+- Created by a 1 year dev, also a cuber and student.
+- "I have fun with coding because I can turn my imagination into reality."
+     -Owen
 ---
 ## 📜 License
 
