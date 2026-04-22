@@ -31,12 +31,6 @@ EOF
 # Build the AppImage
 ARCH=x86_64 appimagetool Multiverse.AppDir Multiverse_Linux.AppImage
 
-# 3. Windows Build
-mkdir -p build_windows && cd build_windows
-cmake -DCMAKE_TOOLCHAIN_FILE=../windows_toolchain.cmake ..
-make
-cd ..
-
 # 4. Final Packaging
 echo "Cleaning old releases..."
 rm -rf final_release
@@ -44,9 +38,4 @@ mkdir -p final_release
 
 echo "Moving files to release folder..."
 cp Multiverse_Linux.AppImage final_release/
-if [ -f build_windows/MultiverseApp.exe ]; then
-    cp build_windows/MultiverseApp.exe final_release/
-fi
 
-echo "Zipping..."
-zip -r Multiverse_Full_Release.zip final_release
