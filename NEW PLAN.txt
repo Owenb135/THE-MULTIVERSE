@@ -51,8 +51,7 @@ If you want music right now without installing big libraries, you can use a "sys
 
     Linux: system("paplay music.wav &");
     Windows: system("start /min powershell -c (New-Object Media.SoundPlayer 'music.wav').PlaySync()");
-    (This is a bit "hacky," but it works for quick testing!)
-
-Do you have a .mp3 or .wav file ready to use as your theme song?"
-2) Ditch windows (Temp)
-3) Make new realese
+    (This is a bit "hacky," but it works for quick testing!)"
+2) Find music
+3) Ditch windows (Temp)
+4) Make new realese
