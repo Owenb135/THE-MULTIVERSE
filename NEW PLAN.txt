@@ -1,0 +1,58 @@
+THE MULTIVERSE PLAN:
+	1) Add music:
+
+"1. Install the Library (Ubuntu)
+Run this to get the development files:
+bash
+
+sudo apt update && sudo apt install libsdl2-mixer-dev libsdl2-dev
+
+Use code with caution.
+2. Update your CMakeLists.txt
+You have to tell CMake to find and "glue" the audio library to your game:
+cmake
+
+find_package(SDL2 REQUIRED)
+find_package(SDL2_mixer REQUIRED)
+
+# Add these to your executable
+target_link_libraries(MultiverseApp PRIVATE SDL2::SDL2 SDL2_mixer::SDL2_mixer)
+
+Use code with caution.
+3. The Code to Play Music
+Here is a simple way to start a track in your main():
+cpp
+
+#include <SDL2/SDL_mixer.h>
+
+// 1. Initialize Audio
+Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
+
+// 2. Load your file (put music.mp3 in your project folder)
+Mix_Music *bgm = Mix_LoadMUS("music.mp3");
+
+// 3. Play it (-1 means loop forever)
+Mix_PlayMusic(bgm, -1);
+
+// ... rest of your game code ...
+
+// 4. Clean up when done
+Mix_FreeMusic(bgm);
+Mix_CloseAudio();
+
+Use code with caution.
+4. Important for Windows Build
+When you build for Windows using your toolchain, you will need to install the MinGW version of SDL2. This is the hardest part of cross-compiling with music!
+
+    Command: sudo apt install libsdl2-mixer-mingw-w64-dev
+
+A "Cheat Code" Alternative
+If you want music right now without installing big libraries, you can use a "system call" to play a file using the OS's built-in player:
+
+    Linux: system("paplay music.wav &");
+    Windows: system("start /min powershell -c (New-Object Media.SoundPlayer 'music.wav').PlaySync()");
+    (This is a bit "hacky," but it works for quick testing!)
+
+Do you have a .mp3 or .wav file ready to use as your theme song?"
+2) Ditch windows (Temp)
+3) Make new realese
