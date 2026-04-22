@@ -6,18 +6,8 @@ set(CMAKE_CXX_STANDARD 17)
 # Define source files
 set(SOURCES multi.cpp test.cpp)
 
-# If building for Windows, add the icon resource
-if(WIN32)
-    set(SOURCES ${SOURCES} resource.rc)
-endif()
-
 # Create the application
 add_executable(MultiverseApp ${SOURCES})
-
-# Static link libraries for Windows portability
-if(WIN32)
-    set_target_properties(MultiverseApp PROPERTIES LINK_FLAGS "-static -static-libgcc -static-libstdc++")
-endif()
 
 # --- CPack Configuration ---
 set(CPACK_PACKAGE_NAME "OwenMultiverse")
