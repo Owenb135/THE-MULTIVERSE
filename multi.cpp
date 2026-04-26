@@ -5,7 +5,7 @@
 void start_cppge(); 
 int code;
 void Guessing_game() {
-    std::cout << "Hello and welcome to the program!\n";
+    std::cout << "Hello and welcome to the program!;";
     std::cout << "This is v.1.2\n";
     int pass = 0;
     while (true) {
@@ -227,6 +227,7 @@ int main() {
 	
 using namespace std::chrono_literals;
 std::this_thread::sleep_for(4000ms); // Sleep for 100 milliseconds
+    system("clear");
 
     std::cout << "Select a Progarm:\n";
     std::cout << "       1. Guessing game\n";
@@ -241,39 +242,45 @@ std::this_thread::sleep_for(4000ms); // Sleep for 100 milliseconds
     std::cout << "      10. RPG GAME\n";
     std::cin >> game;
     if (game == 1) {
+        system("clear");
         std::cout << "Starting guessing game...\n";
         Guessing_game();
     }
     else if (game == 2) {
+        system("clear");
         Users();
     }
     else if (game == 3) {
+        system("clear");
         eli();
     }
     else if (game == 4) {
+        system("clear");
         tyler();
     }
     else if (game == 5) {
+        system("clear");
         braden();
     }
     else if (game == 6) {
+        system("clear");
         AI_v1();
     }
     else if (game == 7) {
+        system("clear");
         The_error();
     }
     else if (game == 8) {
+        system("clear");
         why();
     }
     else if (game == 9)
     {
+        system("clear");
         jason();
     }
     else if (game == 10) {
+        system("clear");
         gamer();
     }
        }
-
-
-
-
