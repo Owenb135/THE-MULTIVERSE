@@ -4,10 +4,11 @@ project(OwenMultiverse)
 set(CMAKE_CXX_STANDARD 17)
 
 # Define source files
-set(SOURCES multi.cpp test.cpp)
+set(SOURCES multi.cpp)
 
 # Create the application
 add_executable(MultiverseApp ${SOURCES})
+add_executable(TestApp test.cpp)
 
 # --- CPack Configuration ---
 set(CPACK_PACKAGE_NAME "OwenMultiverse")

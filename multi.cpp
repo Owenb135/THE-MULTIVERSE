@@ -2,7 +2,6 @@
 #include <iostream>
 #include <chrono>
 #include <thread>
-void start_cppge(); 
 int code;
 void Guessing_game() {
     std::cout << "Hello and welcome to the program!;";
@@ -214,8 +213,7 @@ std::this_thread::sleep_for(4000ms); // Sleep for 100 milliseconds
 void gamer() {
     std::cout << "Welcome to the newest and best game I made...\n";
     std::this_thread::sleep_for(std::chrono::seconds(3));
-    start_cppge();
-    }
+}
 int main() {
     // Write C++ code here
     int game;
