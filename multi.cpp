@@ -3,6 +3,8 @@
 #include <chrono>
 #include <thread>
 int code;
+void rpg_game();
+
 void Guessing_game() {
     std::cout << "Hello and welcome to the program!;";
     std::cout << "This is v.1.2\n";
@@ -213,6 +215,7 @@ std::this_thread::sleep_for(4000ms); // Sleep for 100 milliseconds
 void gamer() {
     std::cout << "Welcome to the newest and best game I made...\n";
     std::this_thread::sleep_for(std::chrono::seconds(3));
+    rpg_game();
 }
 int main() {
     // Write C++ code here
@@ -220,7 +223,7 @@ int main() {
     std::cout << "Welcome to the MUILTIVERSE\n \n";
     std::cout << "This program consists with lots of games\n";
     std::cout << "\n REMEMBER THAT THIS PROGRAM IS BETA\n";
-    std::cout << "CREATED BY OWEN BAARCK\n";
+    std::cout << "CREATED BY OWENB135/OWEN0963\n";
 	std::cout << "Remember that this program doesn't use GUI, so type instead.\n\n";
 	
 using namespace std::chrono_literals;

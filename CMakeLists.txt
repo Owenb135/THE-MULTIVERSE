@@ -1,20 +1,19 @@
 cmake_minimum_required(VERSION 3.10)
-project(OwenMultiverse)
+project(TheMultiverse)
 
 set(CMAKE_CXX_STANDARD 17)
 
 # Define source files
-set(SOURCES multi.cpp)
+set(SOURCES multi.cpp test.cpp)
 
 # Create the application
 add_executable(MultiverseApp ${SOURCES})
-add_executable(TestApp test.cpp)
 
 # --- CPack Configuration ---
-set(CPACK_PACKAGE_NAME "OwenMultiverse")
+set(CPACK_PACKAGE_NAME "TheMultiverse")
 set(CPACK_PACKAGE_VERSION "1.2.0")
 set(CPACK_PACKAGE_CONTACT "Owen")
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Owen's C++ Multiverse Game")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "The Multiverse Game")
 
 # Essential for Ubuntu/Linux installers
 set(CPACK_GENERATOR "DEB;RPM;TGZ")
