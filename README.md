@@ -34,6 +34,17 @@ The goal of this project is to:
 
 ## 🕹️ How to Run
 
+### Simple way
+1. Install using .Deb file
+2. Find it in your program list
+3. Click it
+
+### Advanced way
+1. Make a folder named build
+2. Run `cd build`
+3. Run `cmake .. && make`
+4. Run `./MultiverseApp`
+
 ### Requirements:
 - C++ compiler (g++, clang++, or Visual Studio)
 - C++11 or higher
@@ -41,14 +52,12 @@ The goal of this project is to:
 ---
 
 ## ⚠️ Notes
-This is a beta project, so bugs and unfinished features may exist.
 Input is case-sensitive in some areas.
 The program is text-based (no GUI).
 
 ---
 ## 👨‍💻 Author
 
-- Created by a 1 year dev, also a cuber and student.
 - "I have fun with coding because I can turn my imagination into reality."
      -Owen
 ---
@@ -63,7 +72,6 @@ The program is text-based (no GUI).
 ## 🚀 Future Ideas
 - Save system
 - Better combat mechanics
-- More RPG choices
 - Improved AI system
 - Cleaner UI/menu system
 - Better Code quility
