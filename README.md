@@ -3,14 +3,14 @@
 [![How to run](https://img.shields.io/badge/How%20to%20run-brightgreen?style=for-the-badge)](#how-to-run)
 # 🌌 THE MULTIVERSE (C++ Project)
 
-Welcome to **THE MULTIVERSE**, a console-based C++ game collection created as a fun experimental project.  
+Welcome to **THE MULTIVERSE**, a console-based C++ game collection created as a fun open source project.  
 It includes multiple mini-games, interactive story sections, and simple RPG-style battles.
 
 ---
 
 ## 📌 About the Project
 
-This project is a **beta-stage multi-game program** built in C++.  
+This project is a **stable-stage multi-game program** built in C++.  
 It runs in the terminal and uses text input/output for gameplay.
 
 The goal of this project is to:
@@ -57,6 +57,12 @@ The goal of this project is to:
 Input is case-sensitive in some areas.
 The program is text-based (no GUI).
 
+---
+## Contrubutors:
+- [LukachuPro88](https://github.com/LukachuPro88)
+---
+## Credit:
+[Patorjk's TAAG Tool](https://patorjk.com/software/taag/) for ASCII text generation
 ---
 ## 👨‍💻 Author
 
