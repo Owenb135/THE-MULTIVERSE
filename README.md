@@ -63,14 +63,6 @@ The program is text-based (no GUI).
 - "I have fun with coding because I can turn my imagination into reality."
      -Owen
 ---
-## 📜 License
-
-- You can use it for learning or personal use only.
-- You are NOT allowed to sell it or use it for money.
-- You can NOT take it for yourself.
-- Please give credit if you share it.
-
----
 ## 🚀 Future Ideas
 - Save system
 - Better combat mechanics
