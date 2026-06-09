@@ -37,8 +37,8 @@ The goal of this project is to:
 ## How to Run
 
 ### Simple way
-1. Install using .Deb file
-2. Find it in your program list
+1. Install using .Deb file or install using flatpak
+2. Find The Multiverse in your program list
 3. Click it
 
 ### Advanced way
