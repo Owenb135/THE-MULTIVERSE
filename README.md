@@ -37,7 +37,7 @@ The goal of this project is to:
 ## How to Run
 
 ### Simple way
-1. Install using .Deb file or install using flatpak
+1. [Install](https://github.com/Owenb135/THE-MULTIVERSE/releases) using .Deb file or install using flatpak
 2. Find The Multiverse in your program list
 3. Click it
 
