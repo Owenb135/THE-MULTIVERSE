@@ -4,7 +4,7 @@
 #include <thread>
 int code;
 void rpg_game();
-
+void r10();
 void Guessing_game() {
   std::cout << "Hello and welcome to the program!;";
   std::cout << "This is v.1.2\n";
@@ -250,9 +250,10 @@ int main() {
   std::cout << "│  [5] Braden's Sandbox                  │\n";
   std::cout << "│  [6] AI V1.0 Core                      │\n";
   std::cout << "│  [7] Runtime System Error Sandbox      │\n";
-  std::cout << "│  [8] Unknown Sector (\?\?\?\?\?\?)           │\n";
+  std::cout << "│  [8] Unknown Sector (\?\?\?\?\?\?)           │\n"; // It might look wierd but it just works.
   std::cout << "│  [9] Jason's Sandbox                   │\n";
-  std::cout << "│ [10] Text-Based RPG Engine             │\n";
+  std::cout << "│  [10] Text-Based RPG Engine            │\n";
+  std::cout << "│  [11] Reptor Tasks                     │\n";
   std::cout << "└────────────────────────────────────────┘\n\n";
   std::cout << "Enter selection index: ";
   std::cin >> game;
@@ -287,5 +288,15 @@ int main() {
   } else if (game == 10) {
     system("clear");
     gamer();
+  }
+  else if (game == 11) {
+    system("clear");
+    std::cout << "Starting Reptor Tasks...\n";
+    using namespace std::chrono_literals;
+    std::this_thread::sleep_for(4000ms); // Sleep for 100 milliseconds
+    system("clear");
+    r10();
+  } else {
+    std::cout << "Invalid selection. Exiting program.\n";
   }
 }
