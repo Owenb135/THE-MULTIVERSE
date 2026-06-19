@@ -4,7 +4,8 @@ project(TheMultiverse)
 set(CMAKE_CXX_STANDARD 17)
 
 # Define source files
-set(SOURCES multi.cpp test.cpp reptor-tasks.cpp)
+set(SOURCES multi.cpp test.cpp reptor-tasks.cpp
+        "Coder's Ttype.cpp")
 
 # Create the application
 add_executable(MultiverseApp ${SOURCES})

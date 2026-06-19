@@ -3,7 +3,7 @@
 #include <chrono>
 #include <random>
 #include <vector>
-int main();
+int CODERS_TTYPE();
 using namespace std;
 int randomLow() {
     static random_device rd;
@@ -79,7 +79,7 @@ void battles() {
 		else {
 			cout << "Thanks for playing!\n";
 			system("clear");
-			main();
+			CODERS_TTYPE();
 		}
 }
 

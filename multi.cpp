@@ -6,6 +6,7 @@
 int code;
 void rpg_game();
 void r10();
+int CODERS_TTYPE();
 void Guessing_game() {
   std::cout << "Hello and welcome to the program!\n";
   std::cout << "This is v.1.2\n";
@@ -206,6 +207,7 @@ int main() {
   std::cout << "│  [6] Jason's Sandbox                   │\n";
   std::cout << "│  [7] Text-Based RPG Engine             │\n";
   std::cout << "│  [8] Reptor Tasks                      │\n";
+  std::cout << "│  [9] Coder's Ttype                     │\n";
   std::cout << "└────────────────────────────────────────┘\n\n";
   std::cout << "Enter selection index: ";
   std::cin >> game;
@@ -234,6 +236,9 @@ int main() {
   } else if (game == 8) {
     system("clear");
     r10();
+  } else if (game == 9) {
+    system("clear");
+    CODERS_TTYPE();
   } else {
     std::cout << "Invalid selection. Exiting program.\n";
   }
