@@ -45,7 +45,6 @@ To keep the codebase organized for the v1.1.0 release, please follow these rules
 * **C++11 or Higher:** Ensure your code compiles with standard C++11 features.
 * **Multi-File Architecture:** Keep your game logic modular. Do not dump all your code into `multi.cpp`. Use separate files (like `reptor-tasks.cpp`) and link them.
 * **Case Sensitivity:** Document whether user text inputs are case-sensitive.
-* **No External Audio Libraries Yet:** Keep everything text-based or standard standard library input/output for now.
 
 ---
 
