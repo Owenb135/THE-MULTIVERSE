@@ -7,6 +7,7 @@
 int code;
 void rpg_game();
 void r10();
+int CODERS_TTYPE();
 bool playTrack(sf::Music& music, const std::string& filename) {
     // 1. Try loading from local development directory
     if (music.openFromFile("rsc/music/" + filename)) {
