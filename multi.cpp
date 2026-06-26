@@ -1,9 +1,9 @@
-
 #include <chrono>
 #include <iostream>
 #include <thread>
 #include <SFML/Audio.hpp>
 #include <string>
+#include <cstdlib>
 int code;
 void rpg_game();
 void r10();
@@ -22,7 +22,7 @@ bool playTrack(sf::Music& music, const std::string& filename) {
     return false;
 }
 void Guessing_game() {
-  std::cout << "Hello and welcome to the program!;";
+  std::cout << "Hello and welcome to the program!\n";
   std::cout << "This is v.1.2\n";
   int pass = 0;
   while (true) {
@@ -35,6 +35,8 @@ void Guessing_game() {
       break;
     } else {
       std::cout << "Try again\n";
+      std::this_thread::sleep_for(std::chrono::seconds(2));
+      system("clear");
     }
   }
 }
@@ -135,69 +137,21 @@ void eli() {
   }
 }
 void tyler() {
-  std::string tyler;
-  std::cout << "Hi tyler don't type NUKE\n";
-  std::cin >> tyler;
-  if (tyler == "NUKE" || tyler == "nuke" || tyler == "Nuke") {
-    std::cout << "MAHHHHAHAHHA I WILLLL hhhAUNtt yoiu fororrrevr "
-                 "HHAHHAHAHHAHAHAHHA\n";
+    std::string tyler;
+    std::cout << "Hi tyler don't type NUKE\n";
+    std::cin >> tyler;
 
-    using namespace std::chrono_literals;
-    std::this_thread::sleep_for(4000ms); // Sleep for 100 milliseconds
-  } else if (tyler == "suck my nuts") {
-    std::cout << "YOU CRAZYYY!!\n";
-    using namespace std::chrono_literals;
-    std::this_thread::sleep_for(4000ms); // Sleep for 100 milliseconds
-  } else {
-    std::cout << "Good boy\n";
-    using namespace std::chrono_literals;
-    std::this_thread::sleep_for(4000ms); // Sleep for 100 milliseconds
-  }
-  return;
-}
-void braden() {
-  std::cout << "Welcome Braden....\n";
-  std::cout << "Loading.....\n";
-  std::cout
-      << "This is not currently working it may be because it is not finished\n";
-}
-void AI_v1() {
-  std::cout << "Hello and welcome to AI v1.0...\n";
-  std::this_thread::sleep_for(std::chrono::seconds(3));
-  std::cout << "WARNING THIS PROGRAM IS IN THE BETA DEVELOPMENT SO BE AWARE "
-               "THAT THINGS MIGHT BREAK.....\n";
-  std::this_thread::sleep_for(std::chrono::seconds(5));
-  std::cout << "Start typing to start a chat.....\n";
-  std::string hello;
-  std::cin >> hello;
-  if (hello == "Hi" || hello == "Hello" || hello == "hi" || hello == "hello") {
-    std::cout << "HIIII I AM AI v1.0\n";
-    std::cout << "Would you like help?(Select y or n)\n";
-    std::string input1;
-    std::cin >> input1;
-    if (input1 == "y") {
-      std::cout << "Then what would you like help with?\n";
-      std::string input2;
-      std::cin >> input2;
-      if (input2 == "Math") {
-        std::cout << "Nah I am board byyyyeee....\n";
+    if (tyler == "NUKE" || tyler == "nuke" || tyler == "Nuke") {
+        std::cout << "MAHHHHAHAHHA I WILLLL hhhAUNtt yoiu fororrrevr HHAHHAHAHHAHAHAHHA\n";
         using namespace std::chrono_literals;
-        std::this_thread::sleep_for(4000ms); // Sleep for 100 milliseconds
-      }
+        std::this_thread::sleep_for(4000ms);
     } else {
-      std::cout << "Then why did you start a chat?\n";
-      std::cout << "Well anyway bye....\n";
-      using namespace std::chrono_literals;
-      std::this_thread::sleep_for(4000ms); // Sleep for 100 milliseconds
+        std::cout << "Good boy\n";
+        using namespace std::chrono_literals;
+        std::this_thread::sleep_for(4000ms);
     }
-  }
 }
-void The_error() {
-  std::cout << "Warning warning warning warning.....\n";
-  std::cout << "Sorry this part is in devolpment\n";
-  using namespace std::chrono_literals;
-  std::this_thread::sleep_for(4000ms); // Sleep for 100 milliseconds
-}
+ 
 void why() {
   std::cout << "Why why why does no one use this\n";
   using namespace std::chrono_literals;
@@ -270,13 +224,11 @@ playTrack(bgMusic, "watermello-phonk-phonk-music-484547.mp3");
   std::cout << "│  [2] User Verification                 │\n";
   std::cout << "│  [3] Eli's Crazy Program               │\n";
   std::cout << "│  [4] Tyler's Module                    │\n";
-  std::cout << "│  [5] Braden's Sandbox                  │\n";
-  std::cout << "│  [6] AI V1.0 Core                      │\n";
-  std::cout << "│  [7] Runtime System Error Sandbox      │\n";
-  std::cout << "│  [8] Unknown Sector (\?\?\?\?\?\?)           │\n"; // It might look wierd but it just works.
-  std::cout << "│  [9] Jason's Sandbox                   │\n";
-  std::cout << "│  [10] Text-Based RPG Engine            │\n";
-  std::cout << "│  [11] Reptor Tasks                     │\n";
+  std::cout << "│  [5] Runtime System Error Sandbox      │\n";
+  std::cout << "│  [6] Jason's Sandbox                   │\n";
+  std::cout << "│  [7] Text-Based RPG Engine             │\n";
+  std::cout << "│  [8] Reptor Tasks                      │\n";
+  std::cout << "│  [9] Coder's Ttype                     │\n";
   std::cout << "└────────────────────────────────────────┘\n\n";
   std::cout << "Enter selection index: ";
   std::cin >> game;
@@ -295,30 +247,19 @@ playTrack(bgMusic, "watermello-phonk-phonk-music-484547.mp3");
     tyler();
   } else if (game == 5) {
     system("clear");
-    braden();
+    why();
   } else if (game == 6) {
     system("clear");
-    AI_v1();
+    jason();
   } else if (game == 7) {
     system("clear");
-    The_error();
+    gamer();  
   } else if (game == 8) {
     system("clear");
-    why();
+    r10();
   } else if (game == 9) {
     system("clear");
-    jason();
-  } else if (game == 10) {
-    system("clear");
-    gamer();
-  }
-  else if (game == 11) {
-    system("clear");
-    std::cout << "Starting Reptor Tasks...\n";
-    using namespace std::chrono_literals;
-    std::this_thread::sleep_for(4000ms); // Sleep for 100 milliseconds
-    system("clear");
-    r10();
+    CODERS_TTYPE();
   } else {
     std::cout << "Invalid selection. Exiting program.\n";
   }

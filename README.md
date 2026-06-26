@@ -1,6 +1,7 @@
 [![li](https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/github-icon.png)](https://github.com/owenb135)
 [![logo](https://img.shields.io/badge/DOWNLOAD%20-brightgreen?style=for-the-badge)](https://github.com/Owenb135/THE-MULTIVERSE/releases)
 [![How to run](https://img.shields.io/badge/How%20to%20run-brightgreen?style=for-the-badge)](#how-to-run)
+[![How to run](https://img.shields.io/badge/Add%20your%20game!-brightgreen?style=for-the-badge)](#add-your-game)
 # 🌌 THE MULTIVERSE (C++ Project)
 
 Welcome to **THE MULTIVERSE**, a console-based C++ game collection created as a fun open source project.  
@@ -52,7 +53,8 @@ The goal of this project is to:
 - C++11 or higher
 - CMAKE
 ---
-
+## Add Your Game
+If you would like to add you game go to the [games](https://github.com/Owenb135/THE-MULTIVERSE/discussions/7) disscussion to talk about it
 ## ⚠️ Notes
 Input is case-sensitive in some areas.
 The program is text-based (no GUI).
