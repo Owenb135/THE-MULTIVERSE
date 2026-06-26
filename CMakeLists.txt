@@ -3,11 +3,17 @@ project(TheMultiverse)
 
 set(CMAKE_CXX_STANDARD 17)
 
+# 1. Find the SFML Audio package
+find_package(SFML 2.5 COMPONENTS audio REQUIRED)
+
 # Define source files
 set(SOURCES multi.cpp test.cpp reptor-tasks.cpp)
 
 # Create the application
 add_executable(MultiverseApp ${SOURCES})
+
+# 2. Link SFML Audio to your executable
+target_link_libraries(MultiverseApp PRIVATE sfml-audio)
 
 # --- CPack Configuration ---
 set(CPACK_PACKAGE_NAME "TheMultiverse")
@@ -23,6 +29,12 @@ install(TARGETS MultiverseApp DESTINATION bin)
 install(FILES icon.png DESTINATION share/icons)
 install(FILES Multiverse.desktop DESTINATION share/applications)
 
+# 3. Install your specific music files from rsc/music directory
+install(FILES 
+    "rsc/music/kontraa-no-sleep-hiphop-music-473847.mp3"
+    "rsc/music/atlasaudio-chill-chill-music-507815.mp3"
+    "rsc/music/watermello-phonk-phonk-music-484547.mp3"
+    DESTINATION share/TheMultiverse/music
+)
+
 include(CPack)
-
-
