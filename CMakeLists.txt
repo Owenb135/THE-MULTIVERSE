@@ -4,7 +4,7 @@ project(TheMultiverse)
 set(CMAKE_CXX_STANDARD 17)
 
 # 1. Find the SFML Audio package
-find_package(SFML 2.5 COMPONENTS audio REQUIRED)
+find_package(SFML COMPONENTS audio REQUIRED)
 
 # Define source files
 set(SOURCES multi.cpp test.cpp reptor-tasks.cpp
