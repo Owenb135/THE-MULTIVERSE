@@ -46,7 +46,7 @@ The goal of this project is to:
 1. Make a folder named build
 2. Run `cd build`
 3. Run `cmake .. && make`
-4. Run `./MultiverseApp`
+4. Run `./MultiverseApp` or `.MultiverseApp.exe` if on windows
 
 ### Requirements:
 - C++ compiler (g++, clang++, or Visual Studio)
