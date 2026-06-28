@@ -17,7 +17,7 @@ Only the latest versions of the main branch are actively supported with security
 
 If you discover a security vulnerability, please report it:
 
- **GitHub Private Vulnerability Reporting:** Please navigate to the **Security** tab, click **Vulnerabilities**, and select **Report a vulnerability**.
+ **GitHub Private Vulnerability Reporting:** Please click the following: [link](https://github.com/Owenb135/THE-MULTIVERSE/security/advisories)
 
 ### What to Include
 To help patch the issue quickly, please include:
