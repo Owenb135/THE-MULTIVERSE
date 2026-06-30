@@ -5,16 +5,28 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+
 permissions:
   contents: read
+
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
+    # 1. Pull down the repository source code
     - uses: actions/checkout@v4
+
+    # 2. Install SFML dependencies onto the virtual runner
+    - name: Install Dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y libsfml-dev
+
+    # 3. Create the build folder environment
     - name: create build directory
       run: mkdir -p .build
+
+    # 4. Compile the project with CMake
     - name: run cmake
       run: cd .build && cmake .. && make
