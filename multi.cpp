@@ -1,12 +1,27 @@
 #include <chrono>
 #include <iostream>
 #include <thread>
+#include <SFML/Audio.hpp>
 #include <string>
 #include <cstdlib>
 int code;
 void rpg_game();
 void r10();
 int CODERS_TTYPE();
+bool playTrack(sf::Music& music, const std::string& filename) {
+    // 1. Try loading from local development directory
+    if (music.openFromFile("rsc/music/" + filename)) {
+        music.play();
+        return true;
+    }
+    // 2. Try loading from Ubuntu installed directory
+    if (music.openFromFile("/usr/share/TheMultiverse/music/" + filename)) {
+        music.play();
+        return true;
+    }
+    std::cerr << "Failed to find audio track: " << filename << std::endl;
+    return false;
+}
 void Guessing_game() {
   std::cout << "Hello and welcome to the program!\n";
   std::cout << "This is v.1.2\n";
@@ -174,7 +189,14 @@ void gamer() {
 int main() {
   // Write C++ code here
   int game;
+  sf::Music bgMusic;
+bgMusic.setLoop(true);
 
+// Example 1: Play hiphop track
+playTrack(bgMusic, "kontraa-no-sleep-hiphop-music-473847.mp3");
+
+// Example 2: Switch to phonk for a boss/game battle later
+playTrack(bgMusic, "watermello-phonk-phonk-music-484547.mp3");
   // Welcome Message
   std::cout
       << R"( __    __     _                            _          _   _                           __ __________         __  __  __    __ 
