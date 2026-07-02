@@ -1,5 +1,0 @@
-/home/owen0963/THE-MULTIVERSE/build/_CPack_Packages/Linux/TGZ/TheMultiverse-1.1.0/bin/MultiverseApp
-/home/owen0963/THE-MULTIVERSE/build/_CPack_Packages/Linux/TGZ/TheMultiverse-1.1.0/share/icons/icon.png
-/home/owen0963/THE-MULTIVERSE/build/_CPack_Packages/Linux/TGZ/TheMultiverse-1.1.0/share/applications/Multiverse.desktop
-/home/owen0963/THE-MULTIVERSE/build/_CPack_Packages/Linux/TGZ/TheMultiverse-1.1.0/share/TheMultiverse/music/kontraa-no-sleep-hiphop-music.mp3
-/home/owen0963/THE-MULTIVERSE/build/_CPack_Packages/Linux/TGZ/TheMultiverse-1.1.0/share/TheMultiverse/music/watermello-phonk-phonk-music.mp3

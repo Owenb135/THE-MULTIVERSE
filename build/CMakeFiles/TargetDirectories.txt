@@ -1,9 +1,0 @@
-/home/owen0963/THE-MULTIVERSE/build/CMakeFiles/MultiverseApp.dir
-/home/owen0963/THE-MULTIVERSE/build/CMakeFiles/package.dir
-/home/owen0963/THE-MULTIVERSE/build/CMakeFiles/package_source.dir
-/home/owen0963/THE-MULTIVERSE/build/CMakeFiles/edit_cache.dir
-/home/owen0963/THE-MULTIVERSE/build/CMakeFiles/rebuild_cache.dir
-/home/owen0963/THE-MULTIVERSE/build/CMakeFiles/list_install_components.dir
-/home/owen0963/THE-MULTIVERSE/build/CMakeFiles/install.dir
-/home/owen0963/THE-MULTIVERSE/build/CMakeFiles/install/local.dir
-/home/owen0963/THE-MULTIVERSE/build/CMakeFiles/install/strip.dir
