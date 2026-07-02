@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.10)
 project(TheMultiverse)
 
 set(CMAKE_CXX_STANDARD 17)
+# Point CPack to your copyright/license file
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
+
 
 # 1. Find the SFML Audio package
 find_package(SFML COMPONENTS audio REQUIRED)
@@ -18,9 +21,13 @@ target_link_libraries(MultiverseApp PRIVATE sfml-audio)
 
 # --- CPack Configuration ---
 set(CPACK_PACKAGE_NAME "TheMultiverse")
-set(CPACK_PACKAGE_VERSION "1.2.0")
+set(CPACK_PACKAGE_VERSION "1.1.0")
 set(CPACK_PACKAGE_CONTACT "Owen0963/Owenb135")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "The Multiverse Game")
+# Add these two lines to force CPack's staging folders to match your project name
+set(CPACK_PACKAGE_VENDOR "TheMultiverse")
+set(CPACK_PACKAGE_INSTALL_DIRECTORY "TheMultiverse")
+
 
 # Essential for Ubuntu/Linux installers
 set(CPACK_GENERATOR "DEB;RPM;TGZ")
@@ -32,10 +39,11 @@ install(FILES Multiverse.desktop DESTINATION share/applications)
 
 # 3. Install your specific music files from rsc/music directory
 install(FILES 
-    "rsc/music/kontraa-no-sleep-hiphop-music-473847.mp3"
-    "rsc/music/atlasaudio-chill-chill-music-507815.mp3"
-    "rsc/music/watermello-phonk-phonk-music-484547.mp3"
+    "rsc/music/kontraa-no-sleep-hiphop-music.mp3"
+    "rsc/music/watermello-phonk-phonk-music.mp3"
     DESTINATION share/TheMultiverse/music
 )
+# --- Add this right above include(CPack) ---
+set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}")
 
 include(CPack)
