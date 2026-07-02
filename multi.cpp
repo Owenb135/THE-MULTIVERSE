@@ -1,13 +1,39 @@
 #include <chrono>
 #include <iostream>
 #include <thread>
+#include <SFML/Audio.hpp>
 #include <string>
 #include <cstdlib>
 int code;
 void rpg_game();
 void r10();
 int CODERS_TTYPE();
-void Guessing_game() {
+bool playTrack(sf::Music& music, const std::string& filename) {
+  // 1. FORCE the old track to stop playing immediately
+  music.stop();
+
+  // 2. Try loading the new track from local development directory
+  if (music.openFromFile("rsc/music" + filename)) {
+    music.play();
+    return true;
+  }
+  // 3. Try loading from Ubuntu installed directory
+  if (music.openFromFile("/usr/share/TheMultiverse/music/" + filename)) {
+    music.play();
+    return true;
+  }
+  std::cerr << "Failed to find audio track: " << filename << std::endl;
+  return false;
+}
+
+void r11(sf::Music& bgMusic) {
+  bgMusic.setLoop(true);
+  playTrack(bgMusic, "watermello-phonk-phonk-music.mp3");
+  r10();
+}
+void Guessing_game(sf::Music& bgMusic) {
+  bgMusic.setLoop(true);
+  playTrack(bgMusic, "watermello-phonk-phonk-music.mp3");
   std::cout << "Hello and welcome to the program!\n";
   std::cout << "This is v.1.2\n";
   int pass = 0;
@@ -166,7 +192,9 @@ void jason() {
     std::this_thread::sleep_for(4000ms); // Sleep for 100 milliseconds
   }
 }
-void gamer() {
+void gamer(sf::Music& bgMusic) {
+  bgMusic.setLoop(true);
+  playTrack(bgMusic, "watermello-phonk-phonk-music.mp3");
   std::cout << "Welcome to the newest and best game I made...\n";
   std::this_thread::sleep_for(std::chrono::seconds(3));
   rpg_game();
@@ -174,6 +202,13 @@ void gamer() {
 int main() {
   // Write C++ code here
   int game;
+  sf::Music bgMusic;
+bgMusic.setLoop(true);
+
+// Example 1: Play hiphop track
+playTrack(bgMusic, "kontraa-no-sleep-hiphop-music.mp3");
+
+// Example 2: Switch to phonk for a boss/game battle later
 
   // Welcome Message
   std::cout
@@ -214,7 +249,7 @@ int main() {
   if (game == 1) {
     system("clear");
     std::cout << "Starting guessing game...\n";
-    Guessing_game();
+    Guessing_game(bgMusic);
   } else if (game == 2) {
     system("clear");
     Users();
@@ -232,10 +267,10 @@ int main() {
     jason();
   } else if (game == 7) {
     system("clear");
-    gamer();  
+    gamer(bgMusic);
   } else if (game == 8) {
     system("clear");
-    r10();
+    r11(bgMusic);
   } else if (game == 9) {
     system("clear");
     CODERS_TTYPE();

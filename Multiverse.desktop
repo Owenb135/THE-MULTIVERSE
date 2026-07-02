@@ -1,7 +1,9 @@
 [Desktop Entry]
+Type=Application
 Name=The Multiverse
 Exec=MultiverseApp
 Icon=icon
-Type=Application
 Terminal=true
 Categories=Game;
+Comment=The Multiverse Game
+
