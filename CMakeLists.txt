@@ -30,7 +30,7 @@ set(CPACK_PACKAGE_INSTALL_DIRECTORY "TheMultiverse")
 
 
 # Essential for Ubuntu/Linux installers
-set(CPACK_GENERATOR "DEB;RPM;TGZ")
+set(CPACK_GENERATOR "DEB;RPM;TGZ;NSIS")
 
 # Tell CPack where to install your files on the user's system
 install(TARGETS MultiverseApp DESTINATION bin)

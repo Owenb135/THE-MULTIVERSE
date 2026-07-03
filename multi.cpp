@@ -4,7 +4,6 @@
 #include <SFML/Audio.hpp>
 #include <string>
 #include <cstdlib>
-int code;
 void rpg_game();
 void r10();
 int CODERS_TTYPE();
@@ -25,7 +24,6 @@ bool playTrack(sf::Music& music, const std::string& filename) {
   std::cerr << "Failed to find audio track: " << filename << std::endl;
   return false;
 }
-
 void r11(sf::Music& bgMusic) {
   bgMusic.setLoop(true);
   playTrack(bgMusic, "watermello-phonk-phonk-music.mp3");
@@ -163,7 +161,6 @@ void tyler() {
         std::this_thread::sleep_for(4000ms);
     }
 }
- 
 void why() {
   std::cout << "Why why why does no one use this\n";
   using namespace std::chrono_literals;
@@ -199,82 +196,132 @@ void gamer(sf::Music& bgMusic) {
   std::this_thread::sleep_for(std::chrono::seconds(3));
   rpg_game();
 }
-int main() {
-  // Write C++ code here
+int selector() {
   int game;
-  sf::Music bgMusic;
-bgMusic.setLoop(true);
-
-// Example 1: Play hiphop track
-playTrack(bgMusic, "kontraa-no-sleep-hiphop-music.mp3");
-
-// Example 2: Switch to phonk for a boss/game battle later
-
-  // Welcome Message
-  std::cout
-      << R"( __    __     _                            _          _   _                           __ __________         __  __  __    __ 
+    sf::Music bgMusic;
+    bgMusic.setLoop(true);
+    playTrack(bgMusic, "kontraa-no-sleep-hiphop-music.mp3");
+    std::cout
+      << R"( __    __     _                            _          _   _                           __ __________         __  __  __    __
 / / /\ \ \___| | ___ ___  _ __ ___   ___  | |_ ___   | |_| |__   ___    /\/\  /\ /\  / //__   \_   \/\   /\/__\/__\/ _\  /__\
 \ \/  \/ / _ \ |/ __/ _ \| '_ ` _ \ / _ \ | __/ _ \  | __| '_ \ / _ \  /    \/ / \ \/ /   / /\// /\/\ \ / /_\ / \//\ \  /_\
  \  /\  /  __/ | (_| (_) | | | | | |  __/ | || (_) | | |_| | | |  __/ / /\/\ \ \_/ / /___/ //\/ /_   \ V //__/ _  \_\ \//__
   \/  \/ \___|_|\___\___/|_| |_| |_|\___|  \__\___/   \__|_| |_|\___| \/    \/\___/\____/\/ \____/    \_/\__/\/ \_/\__/\__/
 )" << std::endl;
 
-  // Keep these as text for contrast to the title
-  std::cout << "This program consists with lots of games\n";
-  std::cout << "\n REMEMBER THAT THIS PROGRAM IS BETA\n";
-  std::cout << "CREATED BY OWENB135/OWEN0963\n";
-  std::cout
+    // Keep these as text for contrast to the title
+    std::cout << "This program consists with lots of games\n";
+    std::cout << "\n REMEMBER THAT THIS PROGRAM IS BETA\n";
+    std::cout << "CREATED BY OWENB135/OWEN0963\n";
+    std::cout
       << "Remember that this program doesn't use GUI, so type instead.\n\n";
 
-  using namespace std::chrono_literals;
-  std::this_thread::sleep_for(4000ms); // Sleep for 100 milliseconds
-  system("clear");
+    using namespace std::chrono_literals;
+    std::this_thread::sleep_for(4000ms); // Sleep for 100 milliseconds
+    system("clear");
 
-  // Selection table
-  std::cout << "┌────────────────────────────────────────┐\n";
-  std::cout << "│          SELECT A PROGRAM MODULE       │\n";
-  std::cout << "├────────────────────────────────────────┤\n";
-  std::cout << "│  [1] Guessing Game                     │\n";
-  std::cout << "│  [2] User Verification                 │\n";
-  std::cout << "│  [3] Eli's Crazy Program               │\n";
-  std::cout << "│  [4] Tyler's Module                    │\n";
-  std::cout << "│  [5] Runtime System Error Sandbox      │\n";
-  std::cout << "│  [6] Jason's Sandbox                   │\n";
-  std::cout << "│  [7] Text-Based RPG Engine             │\n";
-  std::cout << "│  [8] Reptor Tasks                      │\n";
-  std::cout << "│  [9] Coder's Ttype                     │\n";
-  std::cout << "└────────────────────────────────────────┘\n\n";
-  std::cout << "Enter selection index: ";
-  std::cin >> game;
-  if (game == 1) {
+    // Selection table
+    std::cout << "┌────────────────────────────────────────┐\n";
+    std::cout << "│          SELECT A PROGRAM MODULE       │\n";
+    std::cout << "├────────────────────────────────────────┤\n";
+    std::cout << "│  [1] Guessing Game                     │\n";
+    std::cout << "│  [2] User Verification                 │\n";
+    std::cout << "│  [3] Eli's Crazy Program               │\n";
+    std::cout << "│  [4] Tyler's Module                    │\n";
+    std::cout << "│  [5] Runtime System Error Sandbox      │\n";
+    std::cout << "│  [6] Jason's Sandbox                   │\n";
+    std::cout << "│  [7] Text-Based RPG Engine             │\n";
+    std::cout << "│  [8] Reptor Tasks                      │\n";
+    std::cout << "│  [9] Coder's Ttype                     │\n";
+    std::cout << "└────────────────────────────────────────┘\n\n";
+    std::cout << "Enter selection index: ";
+    std::cin >> game;
+    if (game == 1)
+    {
+      system("clear");
+      std::cout << "Starting guessing game...\n";
+      Guessing_game(bgMusic);
+    }
+    else if (game == 2)
+    {
+      system("clear");
+      Users();
+    }
+    else if (game == 3)
+    {
+      system("clear");
+      eli();
+    }
+    else if (game == 4)
+    {
+      system("clear");
+      tyler();
+    }
+    else if (game == 5)
+    {
+      system("clear");
+      why();
+    }
+    else if (game == 6)
+    {
+      system("clear");
+      jason();
+    }
+    else if (game == 7)
+    {
+      system("clear");
+      gamer(bgMusic);
+    }
+    else if (game == 8)
+    {
+      system("clear");
+      r11(bgMusic);
+    }
+    else if (game == 9)
+    {
+      system("clear");
+      CODERS_TTYPE();
+    }
+    else
+    {
+      std::cout << "Invalid selection. Exiting program.\n";
+      return 0;
+    }
+  return 0;
+}
+void upd_option()
+{
+  std::cout << "An update has been found. Would you like to continue?\n";
+  std::this_thread::sleep_for(std::chrono::seconds(1));
+  system("clear");
+  std::cout << "Y for yes N for no\n";
+  std::this_thread::sleep_for(std::chrono::seconds(1));
+  std::string option;
+  std::cin >> option;
+  if (option == "N") {
     system("clear");
-    std::cout << "Starting guessing game...\n";
-    Guessing_game(bgMusic);
-  } else if (game == 2) {
-    system("clear");
-    Users();
-  } else if (game == 3) {
-    system("clear");
-    eli();
-  } else if (game == 4) {
-    system("clear");
-    tyler();
-  } else if (game == 5) {
-    system("clear");
-    why();
-  } else if (game == 6) {
-    system("clear");
-    jason();
-  } else if (game == 7) {
-    system("clear");
-    gamer(bgMusic);
-  } else if (game == 8) {
-    system("clear");
-    r11(bgMusic);
-  } else if (game == 9) {
-    system("clear");
-    CODERS_TTYPE();
-  } else {
-    std::cout << "Invalid selection. Exiting program.\n";
+    selector();
   }
+  else if (option == "Y") {
+    std::cout << "Downloading\n";
+    // Percentage bar
+    // Download the files
+  }
+}
+void check(URL)
+{
+  // checks web_url
+  if (found==true)
+  {
+    upd_option();
+  }
+  else
+  {
+    selector();
+  }
+}
+int main()
+{
+  std::string web_url = "https://github.com/Owenb135/THE-MULTIVERSE"; // This is an example url (It is not the updater url)
+  check(web_url);
 }
