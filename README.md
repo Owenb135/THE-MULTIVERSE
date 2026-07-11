@@ -31,7 +31,8 @@ The goal of this project is to:
 - 🔀 Multiple game menu selection
 - 💬 Fun character-based dialogue sections
 - 🎲 Randomized outcomes (basic RNG)
-- Music (Coming Soom!)
+- Music
+- Automatic Updates (Coming soon!)
 
 ---
 
