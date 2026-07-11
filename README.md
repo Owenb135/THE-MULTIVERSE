@@ -63,10 +63,9 @@ The program is text-based (no GUI).
 ---
 ## Contrubutors:
 - [LukachuPro88](https://github.com/LukachuPro88)
----
 ## Credit:
 [Patorjk's TAAG Tool](https://patorjk.com/software/taag/) for ASCII text generation
----
+
 ## 👨‍💻 Author
 
 - "I have fun with coding because I can turn my imagination into reality."
