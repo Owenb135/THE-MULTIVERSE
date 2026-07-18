@@ -1,22 +1,20 @@
-#include <chrono>
-#include <iostream>
-#include <thread>
 #include <SFML/Audio.hpp>
-#include <string>
-#include <fstream>
-#include <cstdlib>
-#include <array>
-#include <memory>
 #include <algorithm>
+#include <array>
+#include <chrono>
+#include <cstdlib>
+#include <fstream>
+#include <iostream>
+#include <memory>
+#include <string>
+#include <thread>
 namespace {
-#ifdef GAME_VERSION
-    const std::string CURRENT_VERSION = GAME_VERSION;
-#else
-    const std::string CURRENT_VERSION = "1.0.0"; // Fallback safe default
-#endif
+    using namespace std::chrono_literals;
+    std::string CURRENT_VERSION = "1.2.0";
+    std::string& get_version() { return CURRENT_VERSION; }
 
     // 2. Clear path pointing directly to your live manifest file on GitHub
-    const std::string MANIFEST_URL = "https://raw.githubusercontent.com/Owenb135/THE-MULTIVERSE/refs/heads/10-feat-automatic-updates/upds/manifest.json";
+    static const std::string MANIFEST_URL = "https://raw.githubusercontent.com/Owenb135/THE-MULTIVERSE/refs/heads/10-feat-automatic-updates/upds/manifest.json";
 
     // Lightweight inline string locator to extract JSON values without heavy external libraries
     std::string parse_json_value(const std::string& json, const std::string& key) {
@@ -66,69 +64,89 @@ namespace {
 
             char choice;
             std::cin >> choice;
-            if (choice == 'y' || choice == 'Y') {
-                std::string platform_key = "ubuntu_deb";
+            if (choice == 'y' || choice == 'Y')
+            {
+              std::string platform_key = "ubuntu_deb";
 
 #if defined(_WIN32)
-                platform_key = "windows_exe";
+              platform_key = "windows_exe";
 #endif
 
-                // Find the selected platform data block inside the manifest string
-                size_t plat_pos = manifest.find("\"" + platform_key + "\"");
-                if (plat_pos == std::string::npos) {
-                    std::cout << "[Error] Platform settings missing from manifest. Launching game...\n\n";
-                    return;
-                }
-                std::string plat_block = manifest.substr(plat_pos, manifest.find("}", plat_pos) - plat_pos);
+              // Find the selected platform data block inside the manifest string
+              size_t plat_pos = manifest.find("\"" + platform_key + "\"");
+              if (plat_pos == std::string::npos) {
+                std::cout << "[Error] Platform settings missing from manifest. Launching game...\n\n";
+                return;
+              }
+              std::string plat_block = manifest.substr(plat_pos, manifest.find("}", plat_pos) - plat_pos);
 
-                std::string download_url = parse_json_value(plat_block, "url");
-                std::string filename = parse_json_value(plat_block, "filename");
+              std::string download_url = parse_json_value(plat_block, "url");
+              std::string filename = parse_json_value(plat_block, "filename");
 
-                if (download_url.empty() || filename.empty()) {
-                    std::cout << "[Error] Failed to read download metadata from manifest. Launching game...\n\n";
-                    return;
-                }
+              if (download_url.empty() || filename.empty()) {
+                std::cout << "[Error] Failed to read download metadata from manifest. Launching game...\n\n";
+                return;
+              }
 
-                std::cout << "[Updater] Streaming package download via curl...\n";
-                std::string download_cmd = "curl -L \"" + download_url + "\" -o /tmp/" + filename;
-                int progress_res = system(download_cmd.c_str());
+              std::cout << "[Updater] Streaming package download via curl...\n";
+              std::string download_cmd = "curl -L \"" + download_url + "\" -o /tmp/" + filename;
+              int progress_res = system(download_cmd.c_str());
 
-                if (progress_res != 0) {
-                    std::cout << "[Error] Download failed. Launching engine offline...\n\n";
-                    return;
-                }
+              if (progress_res != 0) {
+                std::cout << "[Error] Download failed. Launching engine offline...\n\n";
+                return;
+              }
 
-                std::cout << "[Updater] Launching background platform installer and closing game...\n";
+              CURRENT_VERSION = latest_version;
+              std::cout << "[Updater] Version updated to v" << CURRENT_VERSION << "\n";
+              std::cout << "[Updater] Launching background platform installer and closing game...\n";
 
 #if defined(_WIN32)
-                // Windows: Run the installer executable silently
-                std::ofstream batch("apply_update.bat");
-                batch << "@echo off\n"
-                      << "timeout /t 1 /nobreak > nul\n"
-                      << "start /wait /tmp\\" << filename << " /SILENT\n"
-                      << "del \"%~f0\"\n";
-                batch.close();
-                system("start /b apply_update.bat");
+              // Windows: Run the installer executable silently
+              std::ofstream batch("apply_update.bat");
+              batch << "@echo off\n"
+                    << "timeout /t 1 /nobreak > nul\n"
+                    << "start /wait /tmp\\" << filename << " /SILENT\n"
+                    << "del \"%~f0\"\n";
+              batch.close();
+              system("start /b apply_update.bat");
+              exit(0);
 #else
-                // Ubuntu Linux: Installs the downloaded .deb package using standard apt hooks safely
-                std::ofstream sh("/tmp/apply_update.sh");
-                sh << "#!/bin/bash\n"
-                   << "sleep 1\n"
-                   << "pkexec apt-get install -y /tmp/" << filename << "\n"
-                   << "rm -- \"$0\"\n";
-                sh.close();
-                system("chmod +x /tmp/apply_update.sh");
-                system("/tmp/apply_update.sh &");
-#endif
+              // Ubuntu Linux: Installs the downloaded .deb package cleanly
+              std::ofstream sh("/tmp/apply_update.sh");
+              sh << "#!/bin/bash\n"
+                 << "sleep 0.5\n"
+                 << "touch /tmp/update_started.flag\n"
+                 << "pkexec env DEBIAN_FRONTEND=noninteractive apt-get install -y --fix-broken /tmp/" << filename << " > /tmp/update_log.txt 2>&1\n"
+                 << "rm -f /tmp/update_started.flag\n"
+                 << "rm -- \"$0\"\n";
+              sh.close();
 
-                exit(0); // Safely terminate process so your system packages can replace files
+              std::remove("/tmp/update_started.flag");
+              system("chmod +x /tmp/apply_update.sh");
+
+              // Use 'nohup' so the script survives completely independent of the game closing!
+              system("nohup /tmp/apply_update.sh >/dev/null 2>&1 &");
+
+              std::cout << "[Updater] Waiting for authentication terminal hook...\n";
+
+              int timeout_counter = 0;
+              while (!std::ifstream("/tmp/update_started.flag") && timeout_counter < 30) {
+                  std::this_thread::sleep_for(100ms);
+                  timeout_counter++;
+              }
+
+              std::this_thread::sleep_for(500ms);
+              exit(0);
+#endif
             }
         } else {
             std::cout << "[Updater] Version check passed. Core build (v" << CURRENT_VERSION << ") is active.\n\n";
         }
+        std::this_thread::sleep_for(3000ms);
+        system("clear");
     }
 } // namespace
-
 
 int code;
 void rpg_game();
@@ -326,6 +344,7 @@ void gamer(sf::Music& bgMusic) {
   rpg_game();
 }
 int main() {
+  using namespace std::chrono_literals;
   handle_automatic_updates();
   int game;
   sf::Music bgMusic;
@@ -343,8 +362,10 @@ playTrack(bgMusic, "kontraa-no-sleep-hiphop-music.mp3");
 \ \/  \/ / _ \ |/ __/ _ \| '_ ` _ \ / _ \ | __/ _ \  | __| '_ \ / _ \  /    \/ / \ \/ /   / /\// /\/\ \ / /_\ / \//\ \  /_\
  \  /\  /  __/ | (_| (_) | | | | | |  __/ | || (_) | | |_| | | |  __/ / /\/\ \ \_/ / /___/ //\/ /_   \ V //__/ _  \_\ \//__
   \/  \/ \___|_|\___\___/|_| |_| |_|\___|  \__\___/   \__|_| |_|\___| \/    \/\___/\____/\/ \____/    \_/\__/\/ \_/\__/\__/
-)" << std::endl;
-
+)" << '\n';
+  std::cout << "VERSION: "<< CURRENT_VERSION << '\n';
+  std::this_thread::sleep_for(5s);
+  system("clear");
   // Keep these as text for contrast to the title
   std::cout << "This program consists with lots of games\n";
   std::cout << "\n REMEMBER THAT THIS PROGRAM IS BETA\n";
@@ -352,7 +373,6 @@ playTrack(bgMusic, "kontraa-no-sleep-hiphop-music.mp3");
   std::cout
       << "Remember that this program doesn't use GUI, so type instead.\n\n";
 
-  using namespace std::chrono_literals;
   std::this_thread::sleep_for(4000ms); // Sleep for 100 milliseconds
   system("clear");
 
