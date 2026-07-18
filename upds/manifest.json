@@ -1,4 +1,14 @@
 {
   "latest_version": "1.3.0",
-  "release_notes": "Added cool new music tracks and automatic update checks!"
+  "release_notes": "Added cool new music tracks and automatic installers!",
+  "platforms": {
+    "ubuntu_deb": {
+      "url": "https://raw.githubusercontent.com/Owenb135/THE-MULTIVERSE/refs/heads/10-feat-automatic-updates/upds",
+      "filename": "update.deb"
+    },
+    "windows_exe": {
+      "url": "https://raw.githubusercontent.com/Owenb135/THE-MULTIVERSE/refs/heads/10-feat-automatic-updates/upds",
+      "filename": "update.exe"
+    }
+  }
 }
