@@ -32,14 +32,14 @@ The goal of this project is to:
 - 💬 Fun character-based dialogue sections
 - 🎲 Randomized outcomes (basic RNG)
 - Music
-- Automatic Updates (Coming soon!)
+- Automatic Updates (:) New!)
 
 ---
 
 ## How to Run
 
 ### Simple way
-1. [Install](https://github.com/Owenb135/THE-MULTIVERSE/releases) using .Deb file or install using flatpak
+1. [Install](https://github.com/Owenb135/THE-MULTIVERSE/releases) using .deb file or install using the other installers
 2. Find The Multiverse in your program list
 3. Click it
 
@@ -47,7 +47,7 @@ The goal of this project is to:
 1. Make a folder named build
 2. Run `cd build`
 3. Run `cmake .. && make`
-4. Run `./MultiverseApp` or `.MultiverseApp.exe` if on windows
+4. Run `./MultiverseApp` or `MultiverseApp.exe` if on windows
 
 ### Requirements:
 - C++ compiler (g++, clang++, or Visual Studio)
