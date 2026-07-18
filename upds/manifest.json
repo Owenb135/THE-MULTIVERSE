@@ -3,11 +3,11 @@
   "release_notes": "Added cool new music tracks and automatic installers!",
   "platforms": {
     "ubuntu_deb": {
-      "url": "https://github.com/Owenb135/THE-MULTIVERSE/raw/refs/heads/10-feat-automatic-updates/upds/build.deb",
+      "url": "https://github.com/Owenb135/THE-MULTIVERSE/raw/10-feat-automatic-updates/upds/build.deb",
       "filename": "update.deb"
     },
     "windows_exe": {
-      "url": "https://github.com/Owenb135/THE-MULTIVERSE/raw/refs/heads/10-feat-automatic-updates/upds/build.exe",
+      "url": "https://github.com/Owenb135/THE-MULTIVERSE/raw/10-feat-automatic-updates/upds/build.exe",
       "filename": "update.exe"
     }
   }

@@ -14,7 +14,7 @@ namespace {
     std::string& get_version() { return CURRENT_VERSION; }
 
     // 2. Clear path pointing directly to your live manifest file on GitHub
-    static const std::string MANIFEST_URL = "https://raw.githubusercontent.com/Owenb135/THE-MULTIVERSE/refs/heads/10-feat-automatic-updates/upds/manifest.json";
+    static const std::string MANIFEST_URL = "https://raw.githubusercontent.com/Owenb135/THE-MULTIVERSE/10-feat-automatic-updates/upds/manifest.json";
 
     // Lightweight inline string locator to extract JSON values without heavy external libraries
     std::string parse_json_value(const std::string& json, const std::string& key) {
