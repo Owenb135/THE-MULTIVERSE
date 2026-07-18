@@ -9,11 +9,14 @@
 #include <memory>
 #include <algorithm>
 namespace {
-    // 1. Current local build version of your game
-    const std::string CURRENT_VERSION = "1.2.0";
+#ifdef GAME_VERSION
+    const std::string CURRENT_VERSION = GAME_VERSION;
+#else
+    const std::string CURRENT_VERSION = "1.0.0"; // Fallback safe default
+#endif
 
     // 2. Clear path pointing directly to your live manifest file on GitHub
-    const std::string MANIFEST_URL = "https://githubusercontent.com";
+    const std::string MANIFEST_URL = "https://raw.githubusercontent.com/Owenb135/THE-MULTIVERSE/refs/heads/10-feat-automatic-updates/upds/manifest.json";
 
     // Lightweight inline string locator to extract JSON values without heavy external libraries
     std::string parse_json_value(const std::string& json, const std::string& key) {
@@ -59,18 +62,73 @@ namespace {
                 std::cout << "Changelog: " << release_notes << "\n";
             }
             std::cout << "=============================================\n";
-            std::cout << "Would you like to prepare the installer update? (y/n): ";
+            std::cout << "Would you like to download and install this update? (y/n): ";
 
             char choice;
             std::cin >> choice;
             if (choice == 'y' || choice == 'Y') {
-                std::cout << "[Updater] Feature coming soon! Launching current engine...\n\n";
+                std::string platform_key = "ubuntu_deb";
+
+#if defined(_WIN32)
+                platform_key = "windows_exe";
+#endif
+
+                // Find the selected platform data block inside the manifest string
+                size_t plat_pos = manifest.find("\"" + platform_key + "\"");
+                if (plat_pos == std::string::npos) {
+                    std::cout << "[Error] Platform settings missing from manifest. Launching game...\n\n";
+                    return;
+                }
+                std::string plat_block = manifest.substr(plat_pos, manifest.find("}", plat_pos) - plat_pos);
+
+                std::string download_url = parse_json_value(plat_block, "url");
+                std::string filename = parse_json_value(plat_block, "filename");
+
+                if (download_url.empty() || filename.empty()) {
+                    std::cout << "[Error] Failed to read download metadata from manifest. Launching game...\n\n";
+                    return;
+                }
+
+                std::cout << "[Updater] Streaming package download via curl...\n";
+                std::string download_cmd = "curl -L \"" + download_url + "\" -o /tmp/" + filename;
+                int progress_res = system(download_cmd.c_str());
+
+                if (progress_res != 0) {
+                    std::cout << "[Error] Download failed. Launching engine offline...\n\n";
+                    return;
+                }
+
+                std::cout << "[Updater] Launching background platform installer and closing game...\n";
+
+#if defined(_WIN32)
+                // Windows: Run the installer executable silently
+                std::ofstream batch("apply_update.bat");
+                batch << "@echo off\n"
+                      << "timeout /t 1 /nobreak > nul\n"
+                      << "start /wait /tmp\\" << filename << " /SILENT\n"
+                      << "del \"%~f0\"\n";
+                batch.close();
+                system("start /b apply_update.bat");
+#else
+                // Ubuntu Linux: Installs the downloaded .deb package using standard apt hooks safely
+                std::ofstream sh("/tmp/apply_update.sh");
+                sh << "#!/bin/bash\n"
+                   << "sleep 1\n"
+                   << "pkexec apt-get install -y /tmp/" << filename << "\n"
+                   << "rm -- \"$0\"\n";
+                sh.close();
+                system("chmod +x /tmp/apply_update.sh");
+                system("/tmp/apply_update.sh &");
+#endif
+
+                exit(0); // Safely terminate process so your system packages can replace files
             }
         } else {
             std::cout << "[Updater] Version check passed. Core build (v" << CURRENT_VERSION << ") is active.\n\n";
         }
     }
 } // namespace
+
 
 int code;
 void rpg_game();
