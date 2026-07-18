@@ -21,7 +21,7 @@ target_link_libraries(MultiverseApp PRIVATE sfml-audio)
 
 # --- CPack Configuration ---
 set(CPACK_PACKAGE_NAME "TheMultiverse")
-set(CPACK_PACKAGE_VERSION "1.1.0")
+set(CPACK_PACKAGE_VERSION "1.3.0")
 set(CPACK_PACKAGE_CONTACT "Owen0963/Owenb135")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "The Multiverse Game")
 # Add these two lines to force CPack's staging folders to match your project name

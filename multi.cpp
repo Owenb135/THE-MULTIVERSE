@@ -10,7 +10,7 @@
 #include <thread>
 namespace {
     using namespace std::chrono_literals;
-    std::string CURRENT_VERSION = "1.2.0";
+    std::string CURRENT_VERSION = "1.3.0";
     std::string& get_version() { return CURRENT_VERSION; }
 
     // 2. Clear path pointing directly to your live manifest file on GitHub
@@ -156,13 +156,13 @@ bool playTrack(sf::Music& music, const std::string& filename) {
   // 1. FORCE the old track to stop playing immediately
   music.stop();
 
-  // 2. Try loading the new track from local development directory
-  if (music.openFromFile("rsc/music" + filename)) {
+  // 2. Try loading from Ubuntu installed directory first
+  if (music.openFromFile("/usr/share/TheMultiverse/music/" + filename)) {
     music.play();
     return true;
   }
-  // 3. Try loading from Ubuntu installed directory
-  if (music.openFromFile("/usr/share/TheMultiverse/music/" + filename)) {
+  // 3. Fall back to local development directory
+  if (music.openFromFile("rsc/music/" + filename)) {
     music.play();
     return true;
   }
