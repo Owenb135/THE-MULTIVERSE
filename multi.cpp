@@ -8,7 +8,70 @@
 #include <array>
 #include <memory>
 #include <algorithm>
-const std::string MANIFEST_URL = "https://githubusercontent.com";
+namespace {
+    // 1. Current local build version of your game
+    const std::string CURRENT_VERSION = "1.2.0";
+
+    // 2. Clear path pointing directly to your live manifest file on GitHub
+    const std::string MANIFEST_URL = "https://githubusercontent.com";
+
+    // Lightweight inline string locator to extract JSON values without heavy external libraries
+    std::string parse_json_value(const std::string& json, const std::string& key) {
+        size_t pos = json.find("\"" + key + "\"");
+        if (pos == std::string::npos) return "";
+        pos = json.find(":", pos);
+        size_t start = json.find("\"", pos);
+        size_t end = json.find("\"", start + 1);
+        if (start == std::string::npos || end == std::string::npos) return "";
+        return json.substr(start + 1, end - start - 1);
+    }
+
+    void handle_automatic_updates() {
+        std::cout << "[Updater] Connecting to GitHub update stream...\n";
+
+        // Download manifest.json from your branch
+        std::string downloadCmd = "wget -q \"" + MANIFEST_URL + "\" -O /tmp/manifest.json";
+        int status = system(downloadCmd.c_str());
+
+        if (status != 0) {
+            std::cout << "[Updater] Unable to reach GitHub updates. Launching offline mode.\n\n";
+            return;
+        }
+
+        // Read the entire file into a C++ string stream
+        std::ifstream file("/tmp/manifest.json");
+        if (!file.is_open()) return;
+        std::string manifest((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+        file.close();
+
+        // Extract key pieces of information from the JSON string
+        std::string latest_version = parse_json_value(manifest, "latest_version");
+        std::string release_notes = parse_json_value(manifest, "release_notes");
+
+        // Clean up the temp manifest file
+        std::remove("/tmp/manifest.json");
+
+        // 3. Compare the version numbers!
+        if (latest_version != CURRENT_VERSION && !latest_version.empty()) {
+            std::cout << "\n=============================================\n";
+            std::cout << "UPDATE AVAILABLE: New version v" << latest_version << " is ready!\n";
+            if (!release_notes.empty()) {
+                std::cout << "Changelog: " << release_notes << "\n";
+            }
+            std::cout << "=============================================\n";
+            std::cout << "Would you like to prepare the installer update? (y/n): ";
+
+            char choice;
+            std::cin >> choice;
+            if (choice == 'y' || choice == 'Y') {
+                std::cout << "[Updater] Feature coming soon! Launching current engine...\n\n";
+            }
+        } else {
+            std::cout << "[Updater] Version check passed. Core build (v" << CURRENT_VERSION << ") is active.\n\n";
+        }
+    }
+} // namespace
+
 int code;
 void rpg_game();
 void r10();
@@ -205,7 +268,7 @@ void gamer(sf::Music& bgMusic) {
   rpg_game();
 }
 int main() {
-
+  handle_automatic_updates();
   int game;
   sf::Music bgMusic;
 bgMusic.setLoop(true);
