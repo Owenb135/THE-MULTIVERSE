@@ -1,0 +1,9 @@
+Architecture: amd64
+Description: The Multiverse Game
+Maintainer: Owen0963/Owenb135
+Package: themultiverse
+Priority: optional
+Section: devel
+Version: 1.3.0
+Installed-Size: 8349
+
