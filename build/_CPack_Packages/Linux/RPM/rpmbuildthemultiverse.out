@@ -1,0 +1,12 @@
+Building target platforms: x86_64
+Building for target x86_64
+Executing(%prep): /bin/sh -e /var/tmp/rpm-tmp.Uhw7MD
+Executing(%install): /bin/sh -e /var/tmp/rpm-tmp.ToA3wB
+Processing files: themultiverse-1.3.0-1.x86_64
+Provides: application() application(Multiverse.desktop) themultiverse = 1.3.0-1 themultiverse(x86-64) = 1.3.0-1
+Requires(rpmlib): rpmlib(CompressedFileNames) <= 3.0.4-1 rpmlib(FileDigests) <= 4.6.0-1 rpmlib(PayloadFilesHavePrefix) <= 4.0-1
+Requires: libc.so.6()(64bit) libc.so.6(GLIBC_2.2.5)(64bit) libc.so.6(GLIBC_2.34)(64bit) libc.so.6(GLIBC_2.4)(64bit) libgcc_s.so.1()(64bit) libgcc_s.so.1(GCC_3.0)(64bit) libsfml-audio.so.2.6()(64bit) libstdc++.so.6()(64bit) libstdc++.so.6(CXXABI_1.3)(64bit) libstdc++.so.6(CXXABI_1.3.9)(64bit) libstdc++.so.6(GLIBCXX_3.4)(64bit) libstdc++.so.6(GLIBCXX_3.4.18)(64bit) libstdc++.so.6(GLIBCXX_3.4.21)(64bit) libstdc++.so.6(GLIBCXX_3.4.29)(64bit) libstdc++.so.6(GLIBCXX_3.4.32)(64bit) libstdc++.so.6(GLIBCXX_3.4.5)(64bit) rtld(GNU_HASH)
+Checking for unpackaged file(s): /usr/lib/rpm/check-files /home/owen0963/THE-MULTIVERSE/build/_CPack_Packages/Linux/RPM/TheMultiverse-1.3.0
+Wrote: /home/owen0963/THE-MULTIVERSE/build/_CPack_Packages/Linux/RPM/RPMS/TheMultiverse-1.3.0.rpm
+Executing(%clean): /bin/sh -e /var/tmp/rpm-tmp.XszceN
+Executing(rmbuild): /bin/sh -e /var/tmp/rpm-tmp.ejg3CQ
