@@ -147,10 +147,10 @@ namespace {
         system("clear");
     }
 } // namespace
-
 int code;
 void rpg_game();
 void r10();
+void tetstart();
 int CODERS_TTYPE();
 bool playTrack(sf::Music& music, const std::string& filename) {
   // 1. FORCE the old track to stop playing immediately
@@ -169,7 +169,6 @@ bool playTrack(sf::Music& music, const std::string& filename) {
   std::cerr << "Failed to find audio track: " << filename << std::endl;
   return false;
 }
-
 void r11(sf::Music& bgMusic) {
   bgMusic.setLoop(true);
   playTrack(bgMusic, "watermello-phonk-phonk-music.mp3");
@@ -307,7 +306,6 @@ void tyler() {
         std::this_thread::sleep_for(4000ms);
     }
 }
-
 void why() {
   std::cout << "Why why why does no one use this\n";
   using namespace std::chrono_literals;
@@ -343,84 +341,155 @@ void gamer(sf::Music& bgMusic) {
   std::this_thread::sleep_for(std::chrono::seconds(3));
   rpg_game();
 }
-int main() {
+bool lwire_tet(bool& viewed)
+{
+  std::cout << "LICENSES TAB:\n";
+  std::cout << "TetrisX: MIT LICENSE\n";
+
+  std::this_thread::sleep_for(2s);
+  system("clear");
+
+  std::cout << R"(MIT License
+
+Copyright (c) 2026 Ibrahim Ibram
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+)";
+
+  std::this_thread::sleep_for(20s);
+
+  system("clear");
+
+  std::cout << "\nDo you agree?(Y/N)\n";
+
+  std::string input;
+  std::cin >> input;
+
+  if (input == "Y" || input == "y")
+  {
+    std::this_thread::sleep_for(3s);
+
+    std::cout << "First step complete\n";
+
+    std::this_thread::sleep_for(2s);
+
+    system("clear");
+
+    viewed = true;
+
+    return true;
+  }
+  else
+  {
+    system("clear");
+    return false;
+  }
+}
+int main()
+{
   using namespace std::chrono_literals;
-  handle_automatic_updates();
-  int game;
-  sf::Music bgMusic;
-bgMusic.setLoop(true);
 
-// Example 1: Play hiphop track
-playTrack(bgMusic, "kontraa-no-sleep-hiphop-music.mp3");
+  bool viewed = false;
 
-// Example 2: Switch to phonk for a boss/game battle later
+  if (lwire_tet(viewed))
+  {
+    handle_automatic_updates();
+    int game;
+    sf::Music bgMusic;
+    bgMusic.setLoop(true);
 
-  // Welcome Message
-  std::cout
-      << R"( __    __     _                            _          _   _                           __ __________         __  __  __    __
+    // Example 1: Play hiphop track
+    playTrack(bgMusic, "kontraa-no-sleep-hiphop-music.mp3");
+
+    // Example 2: Switch to phonk for a boss/game battle later
+
+    // Welcome Message
+    std::cout
+        << R"( __    __     _                            _          _   _                           __ __________         __  __  __    __
 / / /\ \ \___| | ___ ___  _ __ ___   ___  | |_ ___   | |_| |__   ___    /\/\  /\ /\  / //__   \_   \/\   /\/__\/__\/ _\  /__\
 \ \/  \/ / _ \ |/ __/ _ \| '_ ` _ \ / _ \ | __/ _ \  | __| '_ \ / _ \  /    \/ / \ \/ /   / /\// /\/\ \ / /_\ / \//\ \  /_\
  \  /\  /  __/ | (_| (_) | | | | | |  __/ | || (_) | | |_| | | |  __/ / /\/\ \ \_/ / /___/ //\/ /_   \ V //__/ _  \_\ \//__
   \/  \/ \___|_|\___\___/|_| |_| |_|\___|  \__\___/   \__|_| |_|\___| \/    \/\___/\____/\/ \____/    \_/\__/\/ \_/\__/\__/
 )" << '\n';
-  std::cout << "VERSION: "<< CURRENT_VERSION << '\n';
-  std::this_thread::sleep_for(5s);
-  system("clear");
-  // Keep these as text for contrast to the title
-  std::cout << "This program consists with lots of games\n";
-  std::cout << "\n REMEMBER THAT THIS PROGRAM IS BETA\n";
-  std::cout << "CREATED BY OWENB135/OWEN0963\n";
-  std::cout
-      << "Remember that this program doesn't use GUI, so type instead.\n\n";
+    std::cout << "VERSION: "<< CURRENT_VERSION << '\n';
+    std::this_thread::sleep_for(5s);
+    system("clear");
+    // Keep these as text for contrast to the title
+    std::cout << "This program consists with lots of games\n";
+    std::cout << "\n REMEMBER THAT THIS PROGRAM IS BETA\n";
+    std::cout << "CREATED BY OWENB135/OWEN0963\n";
+    std::cout
+        << "Remember that this program doesn't use GUI, so type instead.\n\n";
 
-  std::this_thread::sleep_for(4000ms); // Sleep for 100 milliseconds
-  system("clear");
+    std::this_thread::sleep_for(4000ms); // Sleep for 100 milliseconds
+    system("clear");
 
-  // Selection table
-  std::cout << "┌────────────────────────────────────────┐\n";
-  std::cout << "│          SELECT A PROGRAM MODULE       │\n";
-  std::cout << "├────────────────────────────────────────┤\n";
-  std::cout << "│  [1] Guessing Game                     │\n";
-  std::cout << "│  [2] User Verification                 │\n";
-  std::cout << "│  [3] Eli's Crazy Program               │\n";
-  std::cout << "│  [4] Tyler's Module                    │\n";
-  std::cout << "│  [5] Runtime System Error Sandbox      │\n";
-  std::cout << "│  [6] Jason's Sandbox                   │\n";
-  std::cout << "│  [7] Text-Based RPG Engine             │\n";
-  std::cout << "│  [8] Reptor Tasks                      │\n";
-  std::cout << "│  [9] Coder's Ttype                     │\n";
-  std::cout << "└────────────────────────────────────────┘\n\n";
-  std::cout << "Enter selection index: ";
-  std::cin >> game;
-  if (game == 1) {
-    system("clear");
-    std::cout << "Starting guessing game...\n";
-    Guessing_game(bgMusic);
-  } else if (game == 2) {
-    system("clear");
-    Users();
-  } else if (game == 3) {
-    system("clear");
-    eli();
-  } else if (game == 4) {
-    system("clear");
-    tyler();
-  } else if (game == 5) {
-    system("clear");
-    why();
-  } else if (game == 6) {
-    system("clear");
-    jason();
-  } else if (game == 7) {
-    system("clear");
-    gamer(bgMusic);
-  } else if (game == 8) {
-    system("clear");
-    r11(bgMusic);
-  } else if (game == 9) {
-    system("clear");
-    CODERS_TTYPE();
-  } else {
-    std::cout << "Invalid selection. Exiting program.\n";
+    // Selection table
+    std::cout << "┌────────────────────────────────────────┐\n";
+    std::cout << "│          SELECT A PROGRAM MODULE       │\n";
+    std::cout << "├────────────────────────────────────────┤\n";
+    std::cout << "│  [1] Guessing Game                     │\n";
+    std::cout << "│  [2] User Verification                 │\n";
+    std::cout << "│  [3] Eli's Crazy Program               │\n";
+    std::cout << "│  [4] Tyler's Module                    │\n";
+    std::cout << "│  [5] Runtime System Error Sandbox      │\n";
+    std::cout << "│  [6] Jason's Sandbox                   │\n";
+    std::cout << "│  [7] Text-Based RPG Engine             │\n";
+    std::cout << "│  [8] Reptor Tasks                      │\n";
+    std::cout << "│  [9] Coder's Ttype                     │\n";
+    std::cout << "│  [10] TetrisX                          │\n";
+    std::cout << "└────────────────────────────────────────┘\n\n";
+    std::cout << "Enter selection index: ";
+    std::cin >> game;
+    if (game == 1) {
+      system("clear");
+      std::cout << "Starting guessing game...\n";
+      Guessing_game(bgMusic);
+    } else if (game == 2) {
+      system("clear");
+      Users();
+    } else if (game == 3) {
+      system("clear");
+      eli();
+    } else if (game == 4) {
+      system("clear");
+      tyler();
+    } else if (game == 5) {
+      system("clear");
+      why();
+    } else if (game == 6) {
+      system("clear");
+      jason();
+    } else if (game == 7) {
+      system("clear");
+      gamer(bgMusic);
+    } else if (game == 8) {
+      system("clear");
+      r11(bgMusic);
+    } else if (game == 9) {
+      system("clear");
+      CODERS_TTYPE();
+    } else if (game == 10) {
+      system("clear");
+      tetstart();
+    } else {
+      std::cout << "Invalid selection. Exiting program.\n";
+    }
   }
 }
