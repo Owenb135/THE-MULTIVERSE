@@ -39,20 +39,42 @@ The goal of this project is to:
 ## How to Run
 
 ### Simple way
-1. [Install](https://github.com/Owenb135/THE-MULTIVERSE/releases) using .deb file or install using the other installers
-2. Find The Multiverse in your program list
-3. Click it
+1. Download the latest release from [GitHub Releases](https://github.com/Owenb135/THE-MULTIVERSE/releases)
+2. For Ubuntu/Debian, install the `.deb` package
+3. For Windows, just run the latest release `.exe` file
 
-### Advanced way
+### Advanced way (optional)
 1. Make a folder named build
 2. Run `cd build`
 3. Run `cmake .. && make`
-4. Run `./MultiverseApp` or `MultiverseApp.exe` if on windows
+4. Run `./MultiverseApp` or `MultiverseApp.exe` if on Windows
 
-### Requirements:
+### Build requirements (optional)
+These are only needed if you build from source. Windows users who download a release `.exe` do not need to install these dependencies.
 - C++ compiler (g++, clang++, or Visual Studio)
 - C++11 or higher
-- CMAKE
+- CMake
+- SFML development libraries for audio
+
+### Linux package install example
+For Ubuntu/Debian:
+```bash
+sudo apt update
+sudo apt install build-essential cmake libsfml-dev
+```
+
+### Windows release usage
+For Windows users, no build is required.
+1. Download the latest release from [GitHub Releases](https://github.com/Owenb135/THE-MULTIVERSE/releases)
+2. Run the latest `.exe` file from the release
+
+### Advanced way (optional)
+If you want to build from source instead of using a release executable:
+1. Create a folder named `build`
+2. Run `cd build`
+3. Run `cmake .. && make`
+4. Run `./MultiverseApp` or `MultiverseApp.exe` on Windows
+
 ---
 ## Add Your Game
 If you would like to add you game go to the [games](https://github.com/Owenb135/THE-MULTIVERSE/discussions/7) disscussion to talk about it

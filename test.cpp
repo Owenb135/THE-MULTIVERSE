@@ -3,7 +3,7 @@
 #include <chrono>
 #include <random>
 #include <vector>
-int CODERS_TTYPE();
+int main();
 using namespace std;
 int randomLow() {
     static random_device rd;
@@ -79,8 +79,8 @@ void battles() {
 		else {
 			cout << "Thanks for playing!\n";
 			system("clear");
-			CODERS_TTYPE();
-		}
+			main(); // Fixed The bug
+			}
 }
 
 void rpg_game() {
