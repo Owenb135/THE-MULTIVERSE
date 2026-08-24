@@ -94,6 +94,7 @@ The program is text-based (no GUI).
 ---
 ## Contrubutors:
 - [LukachuPro88](https://github.com/LukachuPro88)
+- [VedantMadane](https://github.com/VedantMadane)
 ## Credit:
 [Patorjk's TAAG Tool](https://patorjk.com/software/taag/) for ASCII text generation
 
