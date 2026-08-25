@@ -49,7 +49,7 @@ endif()
 # -----------------------------------------------------------------------------
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
 set(CPACK_PACKAGE_NAME "TheMultiverse")
-set(CPACK_PACKAGE_VERSION "1.3.1")
+set(CPACK_PACKAGE_VERSION "1.3.2")
 set(CPACK_PACKAGE_CONTACT "Owen0963/Owenb135")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "The Multiverse Game")
 set(CPACK_PACKAGE_VENDOR "TheMultiverse")

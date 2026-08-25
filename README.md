@@ -22,17 +22,26 @@ The goal of this project is to:
 
 ---
 
-## 🎮 Features
+## Features
 
-- 🧠 Guessing game
-- 👤 User-specific interactions
-- 🤖 Simple AI chat system (beta)
-- ⚔️ RPG-style battle system
-- 🔀 Multiple game menu selection
-- 💬 Fun character-based dialogue sections
-- 🎲 Randomized outcomes (basic RNG)
-- Music
-- Automatic Updates (:) New!)
+Menu modules currently available in `multi.cpp`:
+
+- **[1] Guessing Game** — number-guessing mini-game with basic RNG
+- **[2] User Verification** — user-specific interactive prompts
+- **[3] Eli's Crazy Program** — character dialogue / story sandbox
+- **[4] Tyler's Module** — interactive text module
+- **[5] Runtime System Error Sandbox** — error / sandbox demo
+- **[6] Jason's Sandbox** — additional sandbox module
+- **[7] Text-Based RPG Engine** — RPG-style battle flow (`rpg_game`)
+- **[8] Reptor Tasks** — task mini-game module
+- **[9] Coder's Ttype** — typing-oriented module
+
+Cross-cutting:
+
+- Multi-module selection menu at startup
+- Background music via SFML (`rsc/music/`)
+- Optional automatic update check from the release manifest (beta)
+
 
 ---
 
@@ -85,6 +94,7 @@ The program is text-based (no GUI).
 ---
 ## Contrubutors:
 - [LukachuPro88](https://github.com/LukachuPro88)
+- [VedantMadane](https://github.com/VedantMadane)
 ## Credit:
 [Patorjk's TAAG Tool](https://patorjk.com/software/taag/) for ASCII text generation
 
