@@ -6,6 +6,7 @@
 #include <fstream>
 #include <iostream>
 #include <memory>
+#include <sstream>
 #include <string>
 #include <thread>
 namespace {
@@ -25,6 +26,22 @@ namespace {
         size_t end = json.find("\"", start + 1);
         if (start == std::string::npos || end == std::string::npos) return "";
         return json.substr(start + 1, end - start - 1);
+    }
+
+    // Compare semantic versions (e.g., "1.3.3" vs "1.2.5")
+    // Returns: 1 if v1 > v2, -1 if v1 < v2, 0 if v1 == v2
+    int compare_versions(const std::string& v1, const std::string& v2) {
+        std::istringstream v1_stream(v1), v2_stream(v2);
+        int major1, minor1, patch1, major2, minor2, patch2;
+        char dot;
+
+        v1_stream >> major1 >> dot >> minor1 >> dot >> patch1;
+        v2_stream >> major2 >> dot >> minor2 >> dot >> patch2;
+
+        if (major1 != major2) return major1 > major2 ? 1 : -1;
+        if (minor1 != minor2) return minor1 > minor2 ? 1 : -1;
+        if (patch1 != patch2) return patch1 > patch2 ? 1 : -1;
+        return 0;
     }
 
     void handle_automatic_updates() {
@@ -53,7 +70,8 @@ namespace {
         std::remove("/tmp/manifest.json");
 
         // 3. Compare the version numbers!
-        if (latest_version != CURRENT_VERSION && !latest_version.empty()) {
+        int version_cmp = compare_versions(latest_version, CURRENT_VERSION);
+        if (version_cmp > 0 && !latest_version.empty()) {
             std::cout << "\n=============================================\n";
             std::cout << "UPDATE AVAILABLE: New version v" << latest_version << " is ready!\n";
             if (!release_notes.empty()) {
