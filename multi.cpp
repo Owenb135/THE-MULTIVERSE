@@ -147,8 +147,7 @@ namespace {
         system("clear");
     }
 } // namespace
-
-int code;
+static int code;
 void rpg_game();
 void r10();
 int CODERS_TTYPE();
@@ -169,7 +168,6 @@ bool playTrack(sf::Music& music, const std::string& filename) {
   std::cerr << "Failed to find audio track: " << filename << std::endl;
   return false;
 }
-
 void r11(sf::Music& bgMusic) {
   bgMusic.setLoop(true);
   playTrack(bgMusic, "watermello-phonk-phonk-music.mp3");
@@ -307,7 +305,6 @@ void tyler() {
         std::this_thread::sleep_for(4000ms);
     }
 }
-
 void why() {
   std::cout << "Why why why does no one use this\n";
   using namespace std::chrono_literals;
@@ -349,13 +346,8 @@ int main() {
   int game;
   sf::Music bgMusic;
 bgMusic.setLoop(true);
-
-// Example 1: Play hiphop track
 playTrack(bgMusic, "kontraa-no-sleep-hiphop-music.mp3");
 
-// Example 2: Switch to phonk for a boss/game battle later
-
-  // Welcome Message
   std::cout
       << R"( __    __     _                            _          _   _                           __ __________         __  __  __    __
 / / /\ \ \___| | ___ ___  _ __ ___   ___  | |_ ___   | |_| |__   ___    /\/\  /\ /\  / //__   \_   \/\   /\/__\/__\/ _\  /__\
@@ -366,14 +358,10 @@ playTrack(bgMusic, "kontraa-no-sleep-hiphop-music.mp3");
   std::cout << "VERSION: "<< CURRENT_VERSION << '\n';
   std::this_thread::sleep_for(5s);
   system("clear");
-  // Keep these as text for contrast to the title
   std::cout << "This program consists with lots of games\n";
-  std::cout << "\n REMEMBER THAT THIS PROGRAM IS BETA\n";
   std::cout << "CREATED BY OWENB135/OWEN0963\n";
-  std::cout
-      << "Remember that this program doesn't use GUI, so type instead.\n\n";
-
-  std::this_thread::sleep_for(4000ms); // Sleep for 100 milliseconds
+  std::cout << "Remember that this program doesn't use GUI, so type instead.\n\n";
+  std::this_thread::sleep_for(4000ms);
   system("clear");
 
   // Selection table
