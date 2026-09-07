@@ -11,7 +11,7 @@
 #include <thread>
 namespace {
     using namespace std::chrono_literals;
-    std::string CURRENT_VERSION = "1.3.3";
+    std::string CURRENT_VERSION = "1.3.4";
     std::string& get_version() { return CURRENT_VERSION; }
 
     // 2. Clear path pointing directly to your live manifest file on GitHub
@@ -195,7 +195,7 @@ void Guessing_game(sf::Music& bgMusic) {
   bgMusic.setLoop(true);
   playTrack(bgMusic, "watermello-phonk-phonk-music.mp3");
   std::cout << "Hello and welcome to the program!\n";
-  std::cout << "This is v.1.2\n";
+  std::cout << "This is v1.2.1\n";
   int pass = 0;
   while (true) {
     std::cout << " \n \n \n \n Hello! Please enter the 4 character code...\n";
@@ -204,6 +204,15 @@ void Guessing_game(sf::Music& bgMusic) {
       std::cout << "Good job you did it!\n";
       using namespace std::chrono_literals;
       std::this_thread::sleep_for(4000ms); // Sleep for 100 milliseconds
+      std::this_thread::sleep_for(3s);
+      system("clear");
+      std::cout << "Would you like to play again?\n";
+      std::string question;
+      std::cin >> question;
+      if (question == "yes" || question == "y" || question == "Y" || question == "Yes" || question == "Sure" || question == "S" || question == "sure" || question == "yeah" || question == "okay" || question == "ok" || question == "Yeah")
+      {
+
+      }
       break;
     } else {
       std::cout << "Try again\n";
@@ -358,17 +367,33 @@ void gamer(sf::Music& bgMusic) {
   std::this_thread::sleep_for(std::chrono::seconds(3));
   rpg_game();
 }
+void showMenu() {
+  std::cout << "┌────────────────────────────────────────┐\n";
+  std::cout << "│          SELECT A PROGRAM MODULE       │\n";
+  std::cout << "├────────────────────────────────────────┤\n";
+  std::cout << "│  [1] Guessing Game                     │\n";
+  std::cout << "│  [2] User Verification                 │\n";
+  std::cout << "│  [3] Eli's Crazy Program               │\n";
+  std::cout << "│  [4] Tyler's Module                    │\n";
+  std::cout << "│  [5] Runtime System Error Sandbox      │\n";
+  std::cout << "│  [6] Jason's Sandbox                   │\n";
+  std::cout << "│  [7] Text-Based RPG Engine             │\n";
+  std::cout << "│  [8] Reptor Tasks                      │\n";
+  std::cout << "│  [9] Coder's Ttype                     │\n";
+  std::cout << "│  [0] Exit Program                      │\n";
+  std::cout << "└────────────────────────────────────────┘\n\n";
+  std::cout << "Enter selection index: ";
+}
 int main() {
   using namespace std::chrono_literals;
   handle_automatic_updates();
-  int game;
   sf::Music bgMusic;
-bgMusic.setLoop(true);
-playTrack(bgMusic, "kontraa-no-sleep-hiphop-music.mp3");
+  bgMusic.setLoop(true);
+  playTrack(bgMusic, "kontraa-no-sleep-hiphop-music.mp3");
 
   std::cout
       << R"( __    __     _                            _          _   _                           __ __________         __  __  __    __
-/ / /\ \ \___| | ___ ___  _ __ ___   ___  | |_ ___   | |_| |__   ___    /\/\  /\ /\  / //__   \_   \/\   /\/__\/__\/ _\  /__\
+/ / /\ \ \___| | ___ ___  _ __ ___   ___  | |_  ___   | |_| |__   ___    /\/\  /\ /\  / //__   \_   \/\   /\/__\/__\/ _\  /__\
 \ \/  \/ / _ \ |/ __/ _ \| '_ ` _ \ / _ \ | __/ _ \  | __| '_ \ / _ \  /    \/ / \ \/ /   / /\// /\/\ \ / /_\ / \//\ \  /_\
  \  /\  /  __/ | (_| (_) | | | | | |  __/ | || (_) | | |_| | | |  __/ / /\/\ \ \_/ / /___/ //\/ /_   \ V //__/ _  \_\ \//__
   \/  \/ \___|_|\___\___/|_| |_| |_|\___|  \__\___/   \__|_| |_|\___| \/    \/\___/\____/\/ \____/    \_/\__/\/ \_/\__/\__/
@@ -382,51 +407,56 @@ playTrack(bgMusic, "kontraa-no-sleep-hiphop-music.mp3");
   std::this_thread::sleep_for(4000ms);
   system("clear");
 
-  // Selection table
-  std::cout << "┌────────────────────────────────────────┐\n";
-  std::cout << "│          SELECT A PROGRAM MODULE       │\n";
-  std::cout << "├────────────────────────────────────────┤\n";
-  std::cout << "│  [1] Guessing Game                     │\n";
-  std::cout << "│  [2] User Verification                 │\n";
-  std::cout << "│  [3] Eli's Crazy Program               │\n";
-  std::cout << "│  [4] Tyler's Module                    │\n";
-  std::cout << "│  [5] Runtime System Error Sandbox      │\n";
-  std::cout << "│  [6] Jason's Sandbox                   │\n";
-  std::cout << "│  [7] Text-Based RPG Engine             │\n";
-  std::cout << "│  [8] Reptor Tasks                      │\n";
-  std::cout << "│  [9] Coder's Ttype                     │\n";
-  std::cout << "└────────────────────────────────────────┘\n\n";
-  std::cout << "Enter selection index: ";
-  std::cin >> game;
-  if (game == 1) {
-    system("clear");
-    std::cout << "Starting guessing game...\n";
-    Guessing_game(bgMusic);
-  } else if (game == 2) {
-    system("clear");
-    Users();
-  } else if (game == 3) {
-    system("clear");
-    eli();
-  } else if (game == 4) {
-    system("clear");
-    tyler();
-  } else if (game == 5) {
-    system("clear");
-    why();
-  } else if (game == 6) {
-    system("clear");
-    jason();
-  } else if (game == 7) {
-    system("clear");
-    gamer(bgMusic);
-  } else if (game == 8) {
-    system("clear");
-    r11(bgMusic);
-  } else if (game == 9) {
-    system("clear");
-    CODERS_TTYPE();
-  } else {
-    std::cout << "Invalid selection. Exiting program.\n";
+  while (true) {
+    int game;
+    showMenu();
+    std::cin >> game;
+    
+    if (game == 1) {
+      system("clear");
+      std::cout << "Starting guessing game...\n";
+      Guessing_game(bgMusic);
+      system("clear");
+    } else if (game == 2) {
+      system("clear");
+      Users();
+      system("clear");
+    } else if (game == 3) {
+      system("clear");
+      eli();
+      system("clear");
+    } else if (game == 4) {
+      system("clear");
+      tyler();
+      system("clear");
+    } else if (game == 5) {
+      system("clear");
+      why();
+      system("clear");
+    } else if (game == 6) {
+      system("clear");
+      jason();
+      system("clear");
+    } else if (game == 7) {
+      system("clear");
+      gamer(bgMusic);
+      system("clear");
+    } else if (game == 8) {
+      system("clear");
+      r11(bgMusic);
+      system("clear");
+    } else if (game == 9) {
+      system("clear");
+      CODERS_TTYPE();
+      system("clear");
+    } else if (game == 0) {
+      std::cout << "Thanks for playing! Goodbye!\n";
+      break;
+    } else {
+      system("clear");
+      std::cout << "Invalid selection. Please try again.\n";
+      std::this_thread::sleep_for(std::chrono::seconds(2));
+      system("clear");
+    }
   }
 }

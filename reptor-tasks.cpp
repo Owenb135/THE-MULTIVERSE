@@ -30,7 +30,7 @@ vector<string> loadTasks() {
 }
 
 int start() {
-    string version = "1.0.0";
+    string version = "1.0.1";
     string author = "Owenb135/Owen0963";
     
     cout << R"(
@@ -95,8 +95,10 @@ void tasks() {
             }
         } 
         else if (command == "exit") {
-            cout << "Goodbye!\n";
-            break;
+            cout << "Returning to main menu...\n";
+            this_thread::sleep_for(chrono::seconds(1));
+            system("clear");
+            return;
         } 
         else {
             cout << "❌ Unknown command. Try 'add', 'done', or 'exit'.\n";

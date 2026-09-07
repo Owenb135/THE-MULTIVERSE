@@ -68,26 +68,28 @@ void battles() {
 		}
 		this_thread::sleep_for(std::chrono::seconds(3));
 		cout << "GAME OVER!\n";
-		// Ask the player if they want to play again
-		cout << "Play again? (Select no if you want to return to main menu y/n)\n";
-		string response;
-		cin >> response;
-		if (response == "y" || response == "Y") {
-			system("clear");
-			battles();
-		}
-		else {
-			cout << "Thanks for playing!\n";
-			system("clear");
-			main(); // Fixed The bug
-			}
 }
 
 void rpg_game() {
     cout << "\n Game Launching....\n";
     this_thread::sleep_for(std::chrono::seconds(3));
 	system("clear");
-    battles();
-	cout << "\n";
-
+	
+	while (true) {
+		battles();
+		
+		// Ask the player if they want to play again
+		cout << "Play again? (Select no if you want to return to main menu y/n)\n";
+		string response;
+		cin >> response;
+		if (response == "y" || response == "Y") {
+			system("clear");
+		}
+		else {
+			cout << "Thanks for playing! Returning to main menu...\n";
+			this_thread::sleep_for(std::chrono::seconds(2));
+			system("clear");
+			return;
+		}
+	}
 }
