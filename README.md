@@ -93,8 +93,12 @@ The program is text-based (no GUI).
 
 ---
 ## Contrubutors:
-- [LukachuPro88](https://github.com/LukachuPro88)
-- [VedantMadane](https://github.com/VedantMadane)
+<a href="https://github.com/owenb135/THE-MULTIVERSE/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=owenb135/THE-MULTIVERSE" alt="Contributors" />
+</a>
+
+
+
 ## Credit:
 [Patorjk's TAAG Tool](https://patorjk.com/software/taag/) for ASCII text generation
 
