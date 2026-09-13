@@ -114,4 +114,3 @@ The program is text-based (no GUI).
 - Improved AI system
 - Cleaner UI/menu system
 - Better Code quility
-- Automatic Updater
