@@ -35,7 +35,7 @@ Menu modules currently available in `multi.cpp`:
 - **[7] Text-Based RPG Engine** — RPG-style battle flow (`rpg_game`)
 - **[8] Reptor Tasks** — task mini-game module
 - **[9] Coder's Ttype** — typing-oriented module
-- **[10] TetrisX** - A Tetris game created by [@iibram](https://github.com/iibram) and upgraded by [@Owenb135](https://github.com/Owenb135]
+- **[10] TetrisX** - A Tetris game created by [@iibram](https://github.com/iibram) and upgraded by [@Owenb135](https://github.com/Owenb135)
 
 Cross-cutting:
 
