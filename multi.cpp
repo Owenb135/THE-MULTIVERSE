@@ -9,10 +9,21 @@
 #include <sstream>
 #include <string>
 #include <thread>
+
+void startup();
+
 namespace {
     using namespace std::chrono_literals;
-    std::string CURRENT_VERSION = "1.3.5";
+    std::string CURRENT_VERSION = "1.3.7";
     std::string& get_version() { return CURRENT_VERSION; }
+
+    void clear_screen() {
+#if defined(_WIN32)
+        std::system("cls");
+#else
+        std::system("clear");
+#endif
+    }
 
     // 2. Clear path pointing directly to your live manifest file on GitHub
     static const std::string MANIFEST_URL = "https://raw.githubusercontent.com/Owenb135/THE-MULTIVERSE/refs/heads/main/upds/manifest.json";
@@ -162,7 +173,7 @@ namespace {
             std::cout << "[Updater] Version check passed. Core build (v" << CURRENT_VERSION << ") is active.\n\n";
         }
         std::this_thread::sleep_for(3000ms);
-        system("clear");
+        clear_screen();
     }
 } // namespace
 static int code;
@@ -205,7 +216,7 @@ void Guessing_game(sf::Music& bgMusic) {
       using namespace std::chrono_literals;
       std::this_thread::sleep_for(4000ms); // Sleep for 100 milliseconds
       std::this_thread::sleep_for(3s);
-      system("clear");
+      clear_screen();
       std::cout << "Would you like to play again?\n";
       std::string question;
       std::cin >> question;
@@ -217,7 +228,7 @@ void Guessing_game(sf::Music& bgMusic) {
     } else {
       std::cout << "Try again\n";
       std::this_thread::sleep_for(std::chrono::seconds(2));
-      system("clear");
+      clear_screen();
     }
   }
 }
@@ -380,6 +391,7 @@ void showMenu() {
   std::cout << "│  [7] Text-Based RPG Engine             │\n";
   std::cout << "│  [8] Reptor Tasks                      │\n";
   std::cout << "│  [9] Coder's Ttype                     │\n";
+  std::cout << "|  [10] TetrisX                          |\n";
   std::cout << "│  [0] Exit Program                      │\n";
   std::cout << "└────────────────────────────────────────┘\n\n";
   std::cout << "Enter selection index: ";
@@ -400,12 +412,12 @@ int main() {
 )" << '\n';
   std::cout << "VERSION: "<< CURRENT_VERSION << '\n';
   std::this_thread::sleep_for(5s);
-  system("clear");
+  clear_screen();
   std::cout << "This program consists with lots of games\n";
   std::cout << "CREATED BY OWENB135/OWEN0963\n";
   std::cout << "Remember that this program doesn't use GUI, so type instead.\n\n";
   std::this_thread::sleep_for(4000ms);
-  system("clear");
+  clear_screen();
 
   while (true) {
     int game;
@@ -413,50 +425,57 @@ int main() {
     std::cin >> game;
     
     if (game == 1) {
-      system("clear");
+      clear_screen();
       std::cout << "Starting guessing game...\n";
       Guessing_game(bgMusic);
-      system("clear");
+      clear_screen();
     } else if (game == 2) {
-      system("clear");
+      clear_screen();
       Users();
-      system("clear");
+      clear_screen();
     } else if (game == 3) {
-      system("clear");
+      clear_screen();
       eli();
-      system("clear");
+      clear_screen();
     } else if (game == 4) {
-      system("clear");
+      clear_screen();
       tyler();
-      system("clear");
+      clear_screen();
     } else if (game == 5) {
-      system("clear");
+      clear_screen();
       why();
-      system("clear");
+      clear_screen();
     } else if (game == 6) {
-      system("clear");
+      clear_screen();
       jason();
-      system("clear");
+      clear_screen();
     } else if (game == 7) {
-      system("clear");
+      clear_screen();
       gamer(bgMusic);
-      system("clear");
+      clear_screen();
     } else if (game == 8) {
-      system("clear");
+      clear_screen();
       r11(bgMusic);
-      system("clear");
-    } else if (game == 9) {
-      system("clear");
+      clear_screen();
+    } else if (game == 9)
+    {
+      clear_screen();
       CODERS_TTYPE();
-      system("clear");
-    } else if (game == 0) {
+      clear_screen();
+    } else if (game == 10)
+    {
+      clear_screen();
+      startup();
+      clear_screen();
+    }
+      else if (game == 0) {
       std::cout << "Thanks for playing! Goodbye!\n";
       break;
     } else {
-      system("clear");
+      clear_screen();
       std::cout << "Invalid selection. Please try again.\n";
       std::this_thread::sleep_for(std::chrono::seconds(2));
-      system("clear");
+      clear_screen();
     }
   }
 }
