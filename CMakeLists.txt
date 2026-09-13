@@ -11,17 +11,22 @@ find_package(SFML COMPONENTS audio REQUIRED)
 
 # Define source files
 set(SOURCES multi.cpp test.cpp reptor-tasks.cpp
-        "Coder's Ttype.cpp")
+        "Coder's Ttype.cpp"
+        tetrisx_iibarm.cpp
+)
 
 # Create the application
 add_executable(MultiverseApp ${SOURCES})
 
 # 2. Link SFML Audio to your executable
 target_link_libraries(MultiverseApp PRIVATE sfml-audio)
+target_compile_definitions(MultiverseApp PRIVATE
+        MULTIVERSE_SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}"
+)
 
 # --- CPack Configuration ---
 set(CPACK_PACKAGE_NAME "TheMultiverse")
-set(CPACK_PACKAGE_VERSION "1.3.4")
+set(CPACK_PACKAGE_VERSION "1.3.7")
 set(CPACK_PACKAGE_CONTACT "Owen0963/Owenb135")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "The Multiverse Game")
 # Add these two lines to force CPack's staging folders to match your project name
