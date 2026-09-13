@@ -14,7 +14,7 @@ void startup();
 
 namespace {
     using namespace std::chrono_literals;
-    std::string CURRENT_VERSION = "1.3.7";
+    std::string CURRENT_VERSION = "1.3.8";
     std::string& get_version() { return CURRENT_VERSION; }
 
     void clear_screen() {
@@ -117,18 +117,26 @@ namespace {
                 return;
               }
 
-              std::cout << "[Updater] Streaming package download via curl...\n";
-              std::string download_cmd = "curl -L \"" + download_url + "\" -o /tmp/" + filename;
+              std::cout << "[Updater] Downloading package via curl...\n";
+              std::string tmpPath = "/tmp/" + filename;
+              std::string download_cmd = "curl -fSL \"" + download_url + "\" -o " + tmpPath + " 2>/tmp/update_log.txt";
               int progress_res = system(download_cmd.c_str());
 
               if (progress_res != 0) {
-                std::cout << "[Error] Download failed. Launching engine offline...\n\n";
+                std::cout << "[Error] Download failed. See /tmp/update_log.txt for details.\n\n";
                 return;
               }
 
-              CURRENT_VERSION = latest_version;
-              std::cout << "[Updater] Version updated to v" << CURRENT_VERSION << "\n";
-              std::cout << "[Updater] Launching background platform installer and closing game...\n";
+              // Validate .deb file before attempting install
+              std::cout << "[Updater] Verifying downloaded package...\n";
+              std::string verify_cmd = "dpkg-deb -I " + tmpPath + " >/tmp/update_log.txt 2>&1";
+              int verify_res = system(verify_cmd.c_str());
+              if (verify_res != 0) {
+                std::cout << "[Error] Downloaded file is not a valid .deb. See /tmp/update_log.txt\n\n";
+                return;
+              }
+
+              std::cout << "[Updater] Launching background installer (will ask for authentication)...\n";
 
 #if defined(_WIN32)
               // Windows: Run the installer executable silently
@@ -141,21 +149,35 @@ namespace {
               system("start /b apply_update.bat");
               exit(0);
 #else
-              // Ubuntu Linux: Installs the downloaded .deb package cleanly
+              // Create a robust installer script that attempts dpkg -i and falls back to apt-get -f install
               std::ofstream sh("/tmp/apply_update.sh");
               sh << "#!/bin/bash\n"
-                 << "sleep 0.5\n"
+                 << "set -e\n"
                  << "touch /tmp/update_started.flag\n"
-                 << "pkexec env DEBIAN_FRONTEND=noninteractive apt-get install -y --fix-broken /tmp/" << filename << " > /tmp/update_log.txt 2>&1\n"
+                 << "# Try installing the package, record output to /tmp/update_log.txt\n"
+                 << "if dpkg -i \"" << tmpPath << "\" >/tmp/update_log.txt 2>&1; then\n"
+                 << "  echo \"dpkg install succeeded\" >> /tmp/update_log.txt\n"
+                 << "  touch /tmp/update_success.flag\n"
+                 << "else\n"
+                 << "  echo \"dpkg install failed; attempting to repair with apt-get -f install\" >> /tmp/update_log.txt\n"
+                 << "  apt-get update >> /tmp/update_log.txt 2>&1 || true\n"
+                 << "  apt-get -f install -y >> /tmp/update_log.txt 2>&1 || true\n"
+                 << "  # Try installing again after fixing deps\n"
+                 << "  if dpkg -i \"" << tmpPath << "\" >> /tmp/update_log.txt 2>&1; then\n"
+                 << "    touch /tmp/update_success.flag\n"
+                 << "  fi\n"
+                 << "fi\n"
                  << "rm -f /tmp/update_started.flag\n"
+                 << "# Remove this script after running\n"
                  << "rm -- \"$0\"\n";
               sh.close();
 
               std::remove("/tmp/update_started.flag");
               system("chmod +x /tmp/apply_update.sh");
 
-              // Use 'nohup' so the script survives completely independent of the game closing!
-              system("nohup /tmp/apply_update.sh >/dev/null 2>&1 &");
+              // Run via pkexec so the entire script runs with elevated privileges and prompts for auth
+              std::string run_cmd = "nohup pkexec /bin/bash /tmp/apply_update.sh >/dev/null 2>&1 &";
+              system(run_cmd.c_str());
 
               std::cout << "[Updater] Waiting for authentication terminal hook...\n";
 
@@ -166,6 +188,7 @@ namespace {
               }
 
               std::this_thread::sleep_for(500ms);
+              // Exit now so the installed system package can replace the binary if needed
               exit(0);
 #endif
             }
