@@ -11,7 +11,7 @@
 #include <thread>
 namespace {
     using namespace std::chrono_literals;
-    std::string CURRENT_VERSION = "1.3.4";
+    std::string CURRENT_VERSION = "1.3.5";
     std::string& get_version() { return CURRENT_VERSION; }
 
     // 2. Clear path pointing directly to your live manifest file on GitHub
