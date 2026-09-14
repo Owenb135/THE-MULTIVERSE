@@ -103,6 +103,8 @@ The program is text-based (no GUI).
 ## Credit:
 [Patorjk's TAAG Tool](https://patorjk.com/software/taag/) for ASCII text generation
 
+[@iibram](http://www.github.com/iibram) for the making of TetrisX
+
 ## 👨‍💻 Author
 
 - "I have fun with coding because I can turn my imagination into reality."
@@ -114,3 +116,12 @@ The program is text-based (no GUI).
 - Improved AI system
 - Cleaner UI/menu system
 - Better Code quility
+## Legal
+(c) 2026 Owenb135
+
+
+This project is licensed under Apache 2.0.
+
+
+TetrisX is a project licensed under MIT.
+
