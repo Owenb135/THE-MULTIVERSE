@@ -1,0 +1,136 @@
+name: Windows Build
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install WinLibs GCC 13.1.0
+        shell: pwsh
+        run: |
+          $url = "https://sourceforge.net/projects/winlibs-mingw/files/13.1.0-11.0.0-msvcrt-r5/winlibs-x86_64-posix-seh-gcc-13.1.0-mingw-w64msvcrt-11.0.0-r5.zip/download"
+          $zip = "$env:RUNNER_TEMP\winlibs.zip"
+          $toolchain = "C:\winlibs"
+
+          Invoke-WebRequest -UseBasicParsing -Uri $url -OutFile $zip
+
+          New-Item -ItemType Directory -Force -Path $toolchain | Out-Null
+          Expand-Archive -Path $zip -DestinationPath $toolchain -Force
+
+          $gcc = Get-ChildItem $toolchain -Filter gcc.exe -Recurse | Select-Object -First 1
+
+          if (-not $gcc) {
+            throw "GCC was not found in the WinLibs archive."
+          }
+
+          $bin = $gcc.Directory.FullName
+
+          Write-Host "GCC directory: $bin"
+          & $gcc.FullName --version
+
+          $bin | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8
+
+      - name: Install SFML 2.6.2
+        shell: pwsh
+        run: |
+          $url = "https://github.com/SFML/SFML/releases/download/2.6.2/SFML-2.6.2-windows-gcc-13.1.0-mingw-64-bit.zip"
+          $zip = "$env:RUNNER_TEMP\sfml.zip"
+          $sfml = "C:\SFML"
+
+          Invoke-WebRequest -UseBasicParsing -Uri $url -OutFile $zip
+
+          Expand-Archive -Path $zip -DestinationPath $env:RUNNER_TEMP\sfml -Force
+
+          $extracted = Get-ChildItem "$env:RUNNER_TEMP\sfml" -Directory | Select-Object -First 1
+
+          if (-not $extracted) {
+            throw "SFML archive extraction failed."
+          }
+
+          New-Item -ItemType Directory -Force -Path $sfml | Out-Null
+          Copy-Item "$($extracted.FullName)\*" $sfml -Recurse -Force
+
+          Write-Host "SFML installed at $sfml"
+
+      - name: Configure
+        shell: pwsh
+        run: |
+           cmake -S . -B build `
+            -G "MinGW Makefiles" `
+            -DCMAKE_BUILD_TYPE=Release `
+            -DCMAKE_C_COMPILER=gcc `
+            -DCMAKE_CXX_COMPILER=g++ `
+            -DCMAKE_PREFIX_PATH="C:/SFML"
+
+      - name: Build
+        shell: pwsh
+        run: |
+          cmake --build build --config Release
+
+      - name: Verify executable
+        shell: pwsh
+        run: |
+          if (-not (Test-Path "build\MultiverseApp.exe")) {
+            throw "MultiverseApp.exe was not produced."
+          }
+
+          Get-Item "build\MultiverseApp.exe"
+
+      - name: Package Windows application
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path release | Out-Null
+
+          Copy-Item build\MultiverseApp.exe release\
+
+          Copy-Item C:\SFML\bin\sfml-audio-2.dll release\
+          Copy-Item C:\SFML\bin\sfml-system-2.dll release\
+          Copy-Item C:\SFML\bin\openal32.dll release\
+
+          $gccBin = (Get-Command gcc).Source | Split-Path
+
+          Copy-Item "$gccBin\libgcc_s_seh-1.dll" release\
+          Copy-Item "$gccBin\libstdc++-6.dll" release\
+          Copy-Item "$gccBin\libwinpthread-1.dll" release\
+
+          Copy-Item -Recurse rsc release\rsc
+
+      - name: Verify packaged files
+        shell: pwsh
+        run: |
+          Get-ChildItem release
+
+          $required = @(
+            "release\MultiverseApp.exe",
+            "release\sfml-audio-2.dll",
+            "release\sfml-system-2.dll",
+            "release\openal32.dll",
+            "release\libgcc_s_seh-1.dll",
+            "release\libstdc++-6.dll",
+            "release\libwinpthread-1.dll",
+            "release\rsc"
+          )
+
+          foreach ($file in $required) {
+            if (-not (Test-Path $file)) {
+              throw "Missing packaged file: $file"
+            }
+          }
+
+      - name: Upload Windows build
+        uses: actions/upload-artifact@v4
+        with:
+          name: TheMultiverse-Windows
+          path: release\
