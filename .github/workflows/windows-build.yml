@@ -67,11 +67,12 @@ jobs:
       - name: Configure
         shell: pwsh
         run: |
-          cmake -S . -B build `
+           cmake -S . -B build `
             -G "MinGW Makefiles" `
             -DCMAKE_BUILD_TYPE=Release `
             -DCMAKE_C_COMPILER=gcc `
-            -DCMAKE_CXX_COMPILER=g++
+            -DCMAKE_CXX_COMPILER=g++ `
+            -DCMAKE_PREFIX_PATH="C:/SFML"
 
       - name: Build
         shell: pwsh
