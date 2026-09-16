@@ -42,7 +42,7 @@ Cross-cutting:
 
 - Multi-module selection menu at startup
 - Background music via SFML (`rsc/music/`)
-- Optional automatic update check from the release manifest (beta)
+- Optional automatic update check from the release manifest
 
 
 ---
