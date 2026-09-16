@@ -2,6 +2,7 @@
 [![logo](https://img.shields.io/badge/DOWNLOAD%20-brightgreen?style=for-the-badge)](https://github.com/Owenb135/THE-MULTIVERSE/releases)
 [![How to run](https://img.shields.io/badge/How%20to%20run-brightgreen?style=for-the-badge)](#how-to-run)
 [![How to run](https://img.shields.io/badge/Add%20your%20game!-brightgreen?style=for-the-badge)](#add-your-game)
+[![Latest windows release](https://img.shields.io/badge/Latest%20Windows%20Release-brightgreen?style=for-the-badge)](https://github.com/Owenb135/THE-MULTIVERSE/releases/tag/v1.3.7-w) 
 # 🌌 THE MULTIVERSE (C++ Project)
 
 Welcome to **THE MULTIVERSE**, a console-based C++ game collection created as a fun open source project.  
