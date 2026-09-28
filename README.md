@@ -89,6 +89,13 @@ If you want to build from source instead of using a release executable:
 ---
 ## Add Your Game
 If you would like to add you game go to the [games](https://github.com/Owenb135/THE-MULTIVERSE/discussions/7) disscussion to talk about it
+
+## Good First Issues
+
+Looking to make your first contribution? Check out our [Good First Issues](https://github.com/Owenb135/THE-MULTIVERSE/issues?q=is%3Aissue%20is%3Aopen%20label%3A%22good%20first%20issue%22) and find an issue that suits you.
+
+Good luck, and happy contributing!
+
 ## ⚠️ Notes
 Input is case-sensitive in some areas.
 The program is text-based (no GUI).
