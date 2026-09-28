@@ -7,7 +7,7 @@ set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
 
 
 # 1. Find the SFML Audio package
-find_package(SFML COMPONENTS audio REQUIRED)
+find_package(SFML COMPONENTS audio QUIET)
 
 # Define source files
 set(SOURCES multi.cpp test.cpp reptor-tasks.cpp
@@ -19,8 +19,14 @@ set(SOURCES multi.cpp test.cpp reptor-tasks.cpp
 add_executable(MultiverseApp ${SOURCES})
 
 # 2. Link SFML Audio to your executable
-target_link_libraries(MultiverseApp PRIVATE sfml-audio)
+if(SFML_FOUND)
+	target_link_libraries(MultiverseApp PRIVATE sfml-audio)
+else ()
+message("WARNING: NO SFML FOUND, using NOSOUND")
+set(FLAGS "-DNOSOUND")
+endif()
 target_compile_definitions(MultiverseApp PRIVATE
+	${FLAGS}
         MULTIVERSE_SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}"
 )
 

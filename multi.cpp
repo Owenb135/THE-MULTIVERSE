@@ -1,4 +1,6 @@
+#ifndef NOSOUND
 #include <SFML/Audio.hpp>
+#endif
 #include <algorithm>
 #include <array>
 #include <chrono>
@@ -21,7 +23,7 @@ namespace {
 #if defined(_WIN32)
         std::system("cls");
 #else
-        std::system("clear");
+    	std::cout << "\033[2J\033[H";
 #endif
     }
 
@@ -203,6 +205,16 @@ static int code;
 void rpg_game();
 void r10();
 int CODERS_TTYPE();
+
+std::string lowercase(std::string text) {
+    std::transform(text.begin(), text.end(), text.begin(),
+        [](unsigned char c) {
+            return std::tolower(c);
+        }
+    );
+    return text;
+}
+#ifndef NOSOUND
 bool playTrack(sf::Music& music, const std::string& filename) {
   // 1. FORCE the old track to stop playing immediately
   music.stop();
@@ -220,6 +232,18 @@ bool playTrack(sf::Music& music, const std::string& filename) {
   std::cerr << "Failed to find audio track: " << filename << std::endl;
   return false;
 }
+#else
+class sf {
+	public:
+	class Music {
+		public:
+		void setLoop(bool) {};
+	};
+}; // just template to handle
+bool playTrack(sf::Music& music, const std::string& filename) {
+	return true;
+} // also just template to handle
+#endif
 void r11(sf::Music& bgMusic) {
   bgMusic.setLoop(true);
   playTrack(bgMusic, "watermello-phonk-phonk-music.mp3");
@@ -260,12 +284,13 @@ void Users() {
   std::string user;
   std::cout << "Please enter your username:\n";
   std::cin >> user;
-  if (user == "Owen2024dj" || user == "owen2024dj") {
+  if (lowercase(user) == "Owen2024dj") { // You can reject this if you want your style (?)
     std::cout << "Welcome Owen, Do you want to game?\n";
     std::string y_n;
     // This is for if they want to game.
     std::cin >> y_n;
-    if (y_n == "y" || y_n == "yes" || y_n == "Yes") {
+    //if (y_n == "y" || y_n == "yes" || y_n == "Yes") {
+    if(lowercase(y_n) == "y") { // "yeah, actually no" also yes btw
       std::cout << "Then go to www.roblox.com or Minecraft.net\n";
       using namespace std::chrono_literals;
       std::this_thread::sleep_for(4000ms); // Sleep for 100 milliseconds
@@ -277,12 +302,12 @@ void Users() {
       std::this_thread::sleep_for(4000ms); // Sleep for 100 milliseconds
     }
   }
-  if (user == "Eli" || user == "eli") {
+  if (lowercase(user) == "eli") {
     std::cout << "Welcome Eli do you want to play mathplayground?\n";
-    std::string yorn;
+    char yorn;
     std::cout << "Select y or n\n";
     std::cin >> yorn;
-    if (yorn == "Y" || yorn == "y") {
+    if (tolower(yorn) == 'y') {
       std::cout << "Then copy and paste this in your browser:\n";
       std::cout << "https://www.mathplayground.com/\n";
       using namespace std::chrono_literals;
@@ -293,23 +318,23 @@ void Users() {
       std::this_thread::sleep_for(4000ms); // Sleep for 100 milliseconds
     }
   }
-  if (user == "braden" || user == "Braden") {
+  if (user == "braden" || user == "Bradll") { // Case Sensitive?
     std::cout << "Hello and welcome...\n";
     std::cout << "Would you a fact?\n";
     std::cout << "Select y or n\n";
     std::string q1;
     std::cin >> q1;
-    if (q1 == "y" || q1 == "Y") {
+    if (tolower(q1[0]) == 'y') {
       std::cout << "Did you know that the moon is lemon shaped?\n";
       std::cout << "y or n\n";
       std::string q2;
       std::cin >> q2;
-      if (q2 == "y" || q2 == "Y") {
+      if (tolower(q2[0]) == 'y') {
         std::cout << "I knew you know\n";
         using namespace std::chrono_literals;
         std::this_thread::sleep_for(4000ms); // Sleep for 100 milliseconds
       }
-      if (q2 == "n" || q2 == "N") {
+      if (tolower(q2[0]) == 'n') {
         std::cout << "I am surprised\n";
         using namespace std::chrono_literals;
         std::this_thread::sleep_for(4000ms); // Sleep for 100 milliseconds
@@ -493,6 +518,7 @@ int main() {
     }
       else if (game == 0) {
       std::cout << "Thanks for playing! Goodbye!\n";
+      std::this_thread::sleep_for(std::chrono::seconds(1));
       break;
     } else {
       clear_screen();
@@ -501,4 +527,5 @@ int main() {
       clear_screen();
     }
   }
+  return 0;
 }
