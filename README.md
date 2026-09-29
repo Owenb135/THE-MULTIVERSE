@@ -55,17 +55,18 @@ Cross-cutting:
 3. For Windows, just run the latest release `.exe` file
 
 ### Advanced way (optional)
+If you want to build from source instead of using a release executable:
 1. Make a folder named build
 2. Run `cd build`
 3. Run `cmake .. && make`
 4. Run `./MultiverseApp` or `MultiverseApp.exe` if on Windows
 
-### Build requirements (optional)
+### Build requirements
 These are only needed if you build from source. Windows users who download a release `.exe` do not need to install these dependencies.
 - C++ compiler (g++, clang++, or Visual Studio)
 - C++11 or higher
 - CMake
-- SFML development libraries for audio
+- SFML development libraries for audio (optional, reccomended)
 
 ### Linux package install example
 For Ubuntu/Debian:
@@ -78,13 +79,6 @@ sudo apt install build-essential cmake libsfml-dev
 For Windows users, no build is required.
 1. Download the latest release from [GitHub Releases](https://github.com/Owenb135/THE-MULTIVERSE/releases)
 2. Run the latest `.exe` file from the release
-
-### Advanced way (optional)
-If you want to build from source instead of using a release executable:
-1. Create a folder named `build`
-2. Run `cd build`
-3. Run `cmake .. && make`
-4. Run `./MultiverseApp` or `MultiverseApp.exe` on Windows
 
 ---
 ## Add Your Game
@@ -123,7 +117,7 @@ The program is text-based (no GUI).
 - Better combat mechanics
 - Improved AI system
 - Cleaner UI/menu system
-- Better Code quility
+- Better Code quality
 ## Legal
 (c) 2026 Owenb135
 
