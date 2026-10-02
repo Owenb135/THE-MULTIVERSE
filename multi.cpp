@@ -7,7 +7,9 @@
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
+#include <limits>
 #include <memory>
+#include <random>
 #include <sstream>
 #include <string>
 #include <thread>
@@ -252,30 +254,123 @@ void r11(sf::Music& bgMusic) {
 void Guessing_game(sf::Music& bgMusic) {
   bgMusic.setLoop(true);
   playTrack(bgMusic, "watermello-phonk-phonk-music.mp3");
-  std::cout << "Hello and welcome to the program!\n";
-  std::cout << "This is v1.2.1\n";
-  int pass = 0;
-  while (true) {
-    std::cout << " \n \n \n \n Hello! Please enter the 4 character code...\n";
-    std::cin >> pass;
-    if (pass == 7699) {
-      std::cout << "Good job you did it!\n";
-      using namespace std::chrono_literals;
-      std::this_thread::sleep_for(4000ms); // Sleep for 100 milliseconds
-      std::this_thread::sleep_for(3s);
-      clear_screen();
-      std::cout << "Would you like to play again?\n";
-      std::string question;
-      std::cin >> question;
-      if (question == "yes" || question == "y" || question == "Y" || question == "Yes" || question == "Sure" || question == "S" || question == "sure" || question == "yeah" || question == "okay" || question == "ok" || question == "Yeah")
-      {
 
-      }
+  std::random_device rd;
+  std::mt19937 gen(rd());
+
+  while (true) {
+    clear_screen();
+    std::cout << "┌─────────────────────────────────────────┐\n";
+    std::cout << "│              GUESSING GAME              │\n";
+    std::cout << "├─────────────────────────────────────────┤\n";
+    std::cout << "│  Select Difficulty / Mode:              │\n";
+    std::cout << "│  [1] Easy   (1 - 50)                    │\n";
+    std::cout << "│  [2] Medium (1 - 100)                   │\n";
+    std::cout << "│  [3] Hard   (1 - 500)                   │\n";
+    std::cout << "│  [4] 4-Digit Code (1000 - 9999)         │\n";
+    std::cout << "│  [0] Return to Main Menu                │\n";
+    std::cout << "└─────────────────────────────────────────┘\n\n";
+    std::cout << "Enter selection index: ";
+
+    int choice;
+    if (!(std::cin >> choice)) {
+      std::cin.clear();
+      std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+      std::cout << "Invalid selection. Please choose an option from the menu.\n";
+      std::this_thread::sleep_for(std::chrono::seconds(1));
+      continue;
+    }
+
+    if (choice == 0) {
       break;
+    }
+
+    int minVal = 1;
+    int maxVal = 100;
+
+    if (choice == 1) {
+      minVal = 1;
+      maxVal = 50;
+    } else if (choice == 2) {
+      minVal = 1;
+      maxVal = 100;
+    } else if (choice == 3) {
+      minVal = 1;
+      maxVal = 500;
+    } else if (choice == 4) {
+      minVal = 1000;
+      maxVal = 9999;
     } else {
-      std::cout << "Try again\n";
-      std::this_thread::sleep_for(std::chrono::seconds(2));
-      clear_screen();
+      std::cout << "Invalid selection. Please choose a valid difficulty level (0-4).\n";
+      std::this_thread::sleep_for(std::chrono::seconds(1));
+      continue;
+    }
+
+    std::uniform_int_distribution<int> dist(minVal, maxVal);
+    int secret = dist(gen);
+    int attempts = 0;
+    int guess = 0;
+
+    clear_screen();
+    std::cout << "┌─────────────────────────────────────────┐\n";
+    std::cout << "│              GUESSING GAME              │\n";
+    std::cout << "└─────────────────────────────────────────┘\n\n";
+    if (choice == 4) {
+      std::cout << "A secret 4-digit code between 1000 and 9999 has been generated!\n";
+    } else {
+      std::cout << "I have chosen a secret number between " << minVal << " and " << maxVal << ".\n";
+    }
+    std::cout << "Try to guess it in as few attempts as possible!\n";
+    std::cout << "(Enter 0 at any time to give up)\n\n";
+
+    while (true) {
+      std::cout << "Enter your guess: ";
+      if (!(std::cin >> guess)) {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cout << "Invalid input! Please enter a valid number.\n\n";
+        continue;
+      }
+
+      if (guess == 0) {
+        std::cout << "\nYou gave up! The secret number was: " << secret << "\n\n";
+        break;
+      }
+
+      if (guess < minVal || guess > maxVal) {
+        std::cout << "Out of range! Please enter a number between " << minVal << " and " << maxVal << ".\n\n";
+        continue;
+      }
+
+      attempts++;
+
+      if (guess < secret) {
+        std::cout << "Too low! Try again.\n\n";
+      } else if (guess > secret) {
+        std::cout << "Too high! Try again.\n\n";
+      } else {
+        std::cout << "\nGood job, you did it!\n";
+        std::cout << "You guessed the secret number (" << secret << ") in " << attempts;
+        if (attempts == 1) {
+          std::cout << " attempt! First try, incredible!\n\n";
+        } else {
+          std::cout << " attempts!\n\n";
+        }
+        break;
+      }
+    }
+
+    std::this_thread::sleep_for(std::chrono::seconds(2));
+    std::cout << "Would you like to play again? (y/n): ";
+    std::string question;
+    std::cin >> question;
+    std::string q = lowercase(question);
+    if (q == "yes" || q == "y" || q == "sure" || q == "yeah" || q == "okay" || q == "ok" || q == "s") {
+      continue;
+    } else {
+      std::cout << "Thanks for playing! Returning to menu...\n";
+      std::this_thread::sleep_for(std::chrono::seconds(1));
+      break;
     }
   }
 }
