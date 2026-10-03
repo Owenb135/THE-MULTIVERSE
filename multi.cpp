@@ -565,7 +565,15 @@ int main() {
   while (true) {
     int game;
     showMenu();
-    std::cin >> game;
+    if (!(std::cin >> game)) {
+      std::cin.clear();
+      std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+      clear_screen();
+      std::cout << "Invalid selection. Please try again.\n";
+      std::this_thread::sleep_for(std::chrono::seconds(2));
+      clear_screen();
+      continue;
+    }
     
     if (game == 1) {
       clear_screen();
@@ -600,26 +608,23 @@ int main() {
       clear_screen();
       r11(bgMusic);
       clear_screen();
-    } else if (game == 9)
-    {
+    } else if (game == 9) {
       clear_screen();
       CODERS_TTYPE();
       clear_screen();
-    } else if (game == 10)
-    {
+    } else if (game == 10) {
       clear_screen();
       startup();
       clear_screen();
-    }
-      else if (game == 0) {
+    } else if (game == 0) {
       std::cout << "Thanks for playing! Goodbye!\n";
       std::this_thread::sleep_for(std::chrono::seconds(1));
       break;
     } else {
-      clear_screen();
-      std::cout << "Invalid selection. Please try again.\n";
-      std::this_thread::sleep_for(std::chrono::seconds(2));
-      clear_screen();
+        clear_screen();
+        std::cout << "Invalid selection. Please try again.\n";
+        std::this_thread::sleep_for(std::chrono::seconds(2));
+        clear_screen();
     }
   }
   return 0;
