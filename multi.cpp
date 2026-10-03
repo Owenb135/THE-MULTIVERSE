@@ -18,7 +18,7 @@ void startup();
 
 namespace {
     using namespace std::chrono_literals;
-    std::string CURRENT_VERSION = "1.3.8";
+    std::string CURRENT_VERSION = "1.3.9";
     std::string& get_version() { return CURRENT_VERSION; }
 
     void clear_screen() {
