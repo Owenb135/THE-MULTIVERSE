@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 project(TheMultiverse)
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Point CPack to your copyright/license file
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
 
@@ -10,13 +11,24 @@ set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
 find_package(SFML COMPONENTS audio QUIET)
 
 # Define source files
-set(SOURCES multi.cpp test.cpp reptor-tasks.cpp
-        "Coder's Ttype.cpp"
-        tetrisx_iibarm.cpp
+set(SOURCES
+    src/multiverse_main.cpp
+    src/core.cpp
+    src/audio.cpp
+    src/updater.cpp
+    src/guessing_game.cpp
+    src/personality_modules.cpp
+    src/game_modules.cpp
+    src/menu.cpp
+    test.cpp
+    reptor-tasks.cpp
+    "Coder's Ttype.cpp"
+    tetrisx_iibarm.cpp
 )
 
 # Create the application
 add_executable(MultiverseApp ${SOURCES})
+target_include_directories(MultiverseApp PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src")
 
 # 2. Link SFML Audio to your executable
 if(SFML_FOUND)
