@@ -2,7 +2,7 @@
 
 Thank you for checking out THE MULTIVERSE! This is an open-source, console-based C++ game collection. We welcome developers of all skill levels to help us expand the universe.
 
-🚀 **Our Current Goal:** We are actively pushing to get **v1.1.0-stable launched by July 10!** 
+🚀 **Our Current Goal:** We are actively pushing to get **v1.4.0 launched by December 16!** 
 
 ---
 
