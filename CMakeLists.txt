@@ -19,6 +19,7 @@ set(SOURCES
     src/guessing_game.cpp
     src/personality_modules.cpp
     src/game_modules.cpp
+    src/SnakeGame.cpp
     src/menu.cpp
     test.cpp
     reptor-tasks.cpp
