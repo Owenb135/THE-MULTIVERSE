@@ -1,12 +1,17 @@
 #include "game_modules.h"
 #include "audio.h"
 #include "external_modules.h"
+#include "SnakeGame.h"
 
 #include <chrono>
 #include <iostream>
 #include <thread>
 
 void rpg_game();
+
+void snake_game() {
+    SnakeGame newGame;
+}
 
 void r11(sf::Music& bgMusic) {
     bgMusic.setLoop(true);

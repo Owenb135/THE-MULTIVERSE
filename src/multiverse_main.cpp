@@ -90,6 +90,10 @@ int main() {
             clear_screen();
             startup();
             clear_screen();
+        } else if (game == 11) {
+            clear_screen();
+            snake_game();
+            clear_screen();
         } else if (game == 0) {
             std::cout << "Thanks for playing! Goodbye!\n";
             std::this_thread::sleep_for(1s);

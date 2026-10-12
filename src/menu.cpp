@@ -17,6 +17,7 @@ void showMenu() {
   std::cout << "│  [8] Reptor Tasks                       │\n";
   std::cout << "│  [9] Coder's Ttype                      │\n";
   std::cout << "│  [10] TetrisX                           │\n";
+  std::cout << "│  [11] Snake                             │\n";
   std::cout << "│  [0] Exit Program                       │\n";
   std::cout << "└─────────────────────────────────────────┘\n\n";
   std::cout << "Enter selection index: ";
