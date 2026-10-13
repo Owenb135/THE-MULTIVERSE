@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 project(TheMultiverse)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)   # TetrisX needs C++20 (<ranges>, std::ranges::sort)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Point CPack to your copyright/license file
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
@@ -20,6 +20,7 @@ set(SOURCES
     src/personality_modules.cpp
     src/game_modules.cpp
     src/SnakeGame.cpp
+    src/TetrisX.cpp
     src/menu.cpp
     test.cpp
     reptor-tasks.cpp

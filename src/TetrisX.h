@@ -9,6 +9,10 @@
 #include <thread>
 #include <chrono>
 #include <array>
+#include <cstdint>
+#include <cstdio>
+#include <string>
+#include <string_view>
 
 
 /**
