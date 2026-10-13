@@ -45,7 +45,7 @@ TetrisX::TetrisX() : bag({ 1, 2, 3, 4, 5, 6, 7 })
  */
 TetrisX::~TetrisX()
 {
-	std::cout << Configs::SHOW_CURSOR;												// show the cursor again (user has quit the game)
+	std::cout << Configs::SHOW_CURSOR << std::flush;												// show the cursor again (user has quit the game)
 	AsyncKey::restoreTerminal();													// OS specific terminal restoration
 }
 
@@ -68,6 +68,15 @@ void TetrisX::initNewGame()
 	PREV_R = false;
 	PREV_ROT = false;
 	PREV_DOWN = false;
+
+	// everything else that could leak over from the previous session
+	complFSM = State::IDLE;
+	complVec.clear();
+	complFrame = 0;
+	autoDown = 0;
+	line_cnt = 0;																			// level progress must not carry over into a new game
+	currID = 0;
+	AsyncKey::flushInput();																// drop keys typed during the previous game
 
 	// HUD reset
 	score = 0;
@@ -145,6 +154,7 @@ void TetrisX::startLoop()
 
 		lastTime = currTime;
 		accu += elapsedTime;
+		if (accu > FRAME_LEN * 5) accu = FRAME_LEN * 5;							// e.g. terminal was suspended: don't fast-forward the game
 
 		while (accu >= FRAME_LEN)													// enter at each target FRAME (every 20 ms => 50 FPS)
 		{
@@ -161,6 +171,8 @@ void TetrisX::startLoop()
 				++complFrame;
 			}
 		}
+
+		std::this_thread::sleep_for(std::chrono::milliseconds(2));					// don't burn 100% of a CPU core while waiting for the next frame
 	}
 }
 
@@ -281,7 +293,7 @@ void TetrisX::updateGame()
 			}
 
 			// drop currBlock by one row (on continuous DOWN | AUTO DOWN reached)
-			if (CURR_DOWN && !PREV_DOWN || autoDown == Configs::SPEEDS[level])
+			if ((CURR_DOWN && !PREV_DOWN) || autoDown == Configs::SPEEDS[level])
 			{
 				move(Movement::DOWN);
 				trySolidize();
@@ -307,10 +319,17 @@ void TetrisX::drawBoard()
 		// temporary FlatBlock
 		FlatBlock nextBlock = Configs::FLAT_BLOCKS[nextID - 1];
 
-		// ss << title bar (incl. updates)
-		ss << Configs::HUD[0] << std::format("{:0>6} \U00002503", score) << nextBlock[0];
-		ss << Configs::HUD[1] << std::format("{:0>3}    \U00002503", level) << nextBlock[1];
-		ss << Configs::HUD[2] << std::format("{:0>3}    \U00002503", lines) << nextBlock[2];
+		// ss << title bar (incl. updates). snprintf instead of std::format: works with every C++20 compiler (GCC < 13 has no <format>)
+		char num[16];
+		ss << Configs::HUD[0];
+		std::snprintf(num, sizeof num, "%06u", static_cast<unsigned>(score));
+		ss << num << " \U00002503" << nextBlock[0];
+		ss << Configs::HUD[1];
+		std::snprintf(num, sizeof num, "%03u", static_cast<unsigned>(level));
+		ss << num << "    \U00002503" << nextBlock[1];
+		ss << Configs::HUD[2];
+		std::snprintf(num, sizeof num, "%03u", static_cast<unsigned>(lines));
+		ss << num << "    \U00002503" << nextBlock[2];
 		ss << Configs::HUD[3];
 
 		// Just in terms of efficiency and performance, we resort to code duplication here (we don't want to disrupt every draw loop) !!!
@@ -352,6 +371,7 @@ void TetrisX::drawBoard()
 			}
 
 			gameOver = true;
+			AsyncKey::flushInput();													// stray keys from during play must not trigger ENTER / K
 		}
 
 		// immediately output the current game board frame to the console and reset the string stream
@@ -374,7 +394,7 @@ void TetrisX::drawBoard()
 void TetrisX::setMoveInfo(Movement dir)
 {
 	moveInfo.canMove = false;														// assumption: currBlock can't move
-	short offIdx;
+	short offIdx = 0;
 	short i = -1;
 
 	if (dir == Movement::ROTATION)
@@ -486,7 +506,6 @@ void TetrisX::trySolidize()
 	if (!moveInfo.canMove)
 	{
 		uint16_t bottomIdx = 1;														// to avoid division by zero (even though it is guaranteed to be populated)
-		uint8_t k = 0;																// index for the comparison with BLOCKS
 
 		for (B_Cell& b : currBlock)
 		{
@@ -495,11 +514,8 @@ void TetrisX::trySolidize()
 		}
 		bottomIdx /= Configs::COLS;													// bottommost row as the index, from which 4 rows upwards must be checked
 
-		if (bottomIdx > 0)
-		{
-			bottomRow = bottomIdx;													// bottomRow is uint8_t, but indexing unfortunately requires values ​​> 255
-			complFSM = State::BOOM_1;												// the completion routine begins
-		}
+		bottomRow = static_cast<uint8_t>(bottomIdx);								// always start the completion routine: it also hands over to the next block
+		complFSM = State::BOOM_1;												// the completion routine begins
 
 		currID = 0;																	// key control and autoDown are implicitly "disabled"
 		hitGround = true;															// impact detected
@@ -523,7 +539,7 @@ void TetrisX::completion_1(uint8_t bottomRow)
 	uint8_t cnt = 0;
 
 	uint16_t endIdx = bottomRow * Configs::COLS + 13;								// -1 is performed directly on the element -> [--endIdx]
-	uint16_t begIdx = (bottomRow - 3) * Configs::COLS;								// max. 4 lines are possible, but we index from the start of the line
+	uint16_t begIdx = bottomRow >= 3 ? (bottomRow - 3) * Configs::COLS : 0;								// max. 4 lines are possible, but we index from the start of the line
 
 	while (endIdx > begIdx)															// a maximum of 4 lines are checked
 	{
@@ -571,7 +587,6 @@ void TetrisX::completion_2()
 void TetrisX::completion_3()
 {
 	uint8_t rows = complVec.size() / (Configs::COLS - 2);							// number of rows to delete, excluding the L/R margins
-	uint16_t minIdx = rows * Configs::COLS;											// offset now adjusted to a full row of the board (including margins)
 
 	score += Configs::SCORE_TABLE[rows - 1];										// updating the score
 	lines += rows;																	// updating the completed lines
@@ -586,36 +601,30 @@ void TetrisX::completion_3()
 		}
 	}
 
-	// The algorithm: final stage of the completion routine
-	uint8_t cnt = 0, solids = 0, off = Configs::COLS;
-	bool checkOffset = true;
-
-	for (uint16_t i = complVec[0]; i > minIdx; --i)									// i = complVec[0]: lowest & last cell to be deleted
+	// Final stage: compact the playfield. Walk from the bottom row upwards and copy every row that was NOT completed down to the next free
+	// slot. Completed rows (marked with ID 9) are simply skipped, wherever they are - they don't have to be adjacent to each other.
+	constexpr int PLAY_ROWS = Configs::ROWS - 1;									// 20 playable rows (the last row is the floor)
+	int dst = PLAY_ROWS - 1;
+	for (int src = PLAY_ROWS - 1; src >= 0; --src)
 	{
-		if (checkOffset)
+		const int srcBase = src * Configs::COLS;
+		if (board[srcBase + 1].id == 9) continue;									// completed row: drop it
+
+		if (src != dst)
 		{
-			while (board[i - off].id == 9)
-				off += Configs::COLS;												// skip completed lines (detect the number of rows to offset)
-
-			checkOffset = false;
+			const int dstBase = dst * Configs::COLS;
+			for (int c = 1; c <= 12; ++c)												// interior cells only, the side borders stay untouched
+			{
+				board[dstBase + c] = board[srcBase + c];
+				board[dstBase + c].idx = static_cast<uint16_t>(dstBase + c);
+				board[srcBase + c] = { static_cast<uint16_t>(srcBase + c), 0, false };
+			}
 		}
-
-		uint16_t offIdx = i - off;													// pointing to first uncompleted lines rightmost cell
-
-		board[i] = board[offIdx];													// shift the cell down by "off" rows
-		board[i].idx = i;															// update Cell.idx to the new location
-		board[offIdx] = { offIdx, 0, false };										// set source cell to empty = {offIdx, 0, false}
-
-		if (board[i].solid) ++solids;												// count the SOLID cells
-
-		if (++cnt == 12)															// line finished?
-		{
-			if (rows > 0) --rows;													// only after all lines to be deleted have been processed
-			else if (solids == 0) break;											// check if a line without blocks was encountered => break
-
-			checkOffset = true;														// set -> the offset must be checked again
-			solids = 0; cnt = 0;													// reset counter after every full line
-			i -= 2; 																// skip margins
-		}
+		--dst;
 	}
+
+	// everything above the compacted stack is empty now (this also wipes completed rows that had nothing above them)
+	for (int r = dst; r >= 0; --r)
+		for (int c = 1; c <= 12; ++c)
+			board[r * Configs::COLS + c] = { static_cast<uint16_t>(r * Configs::COLS + c), 0, false };
 }

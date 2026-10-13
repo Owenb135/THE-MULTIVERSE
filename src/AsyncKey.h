@@ -44,7 +44,18 @@ namespace AsyncKey
 	{
 		SetConsoleOutputCP(CP_UTF8);
 		SetConsoleCP(CP_UTF8);
+
+		// Make sure ANSI escape codes (cursor home, clear, hide cursor) also work on classic conhost
+		HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);
+		DWORD mode = 0;
+		if (out != INVALID_HANDLE_VALUE && GetConsoleMode(out, &mode))
+			SetConsoleMode(out, mode | 0x0004);							// ENABLE_VIRTUAL_TERMINAL_PROCESSING
 	}
+
+	/**
+	 * @brief Discards keys that were pressed but not yet consumed. No-op on Windows (keys are polled, not queued).
+	 */
+	inline void flushInput() {}
 
 	/**
 	 * @brief Upon exiting, restores the terminal to its original state and flushes the input buffer.
@@ -188,6 +199,18 @@ namespace AsyncKey
 			tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
 			terminalConfigured = false;
 		}
+	}
+
+	/**
+	 * @brief Discards keys that were pressed but not yet consumed.
+	 * @note Keys such as ENTER are only consumed on the GAME OVER screen, so without this a stray ENTER pressed during play
+	 *       would instantly restart the game (and the GAME OVER screen would never be seen).
+	 */
+	inline void flushInput()
+	{
+		pendingKeys = 0;
+		if (terminalConfigured)
+			tcflush(STDIN_FILENO, TCIFLUSH);
 	}
 
 	/**
