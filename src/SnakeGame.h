@@ -60,7 +60,7 @@ private:
 			"\U00002B1B",					// 4: border wall ⬛
 		};
 
-		constexpr static int TICK_MS = 120;								// time (ms) between each snake step (constant speed)
+		constexpr static int TICK_MS = 200;								// time (ms) between each snake step (constant speed)
 		constexpr static int FRAME_MS = 20;								// input-polling interval; keeps controls responsive between steps
 	};
 
