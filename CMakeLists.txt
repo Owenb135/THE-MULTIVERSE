@@ -57,7 +57,7 @@ set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "curl, pkexec")
 
 # Essential for Ubuntu/Linux installers
-set(CPACK_GENERATOR "DEB;RPM;TGZ;NSIS")
+set(CPACK_GENERATOR "DEB;TGZ;NSIS")
 
 # Tell CPack where to install your files on the user's system
 install(TARGETS MultiverseApp DESTINATION bin)
