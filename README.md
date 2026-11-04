@@ -1,8 +1,9 @@
 [![li](https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/github-icon.png)](https://github.com/owenb135)
 [![logo](https://img.shields.io/badge/DOWNLOAD%20-brightgreen?style=for-the-badge)](https://github.com/Owenb135/THE-MULTIVERSE/releases)
 [![How to run](https://img.shields.io/badge/How%20to%20run-brightgreen?style=for-the-badge)](#how-to-run)
-[![How to run](https://img.shields.io/badge/Add%20your%20game!-brightgreen?style=for-the-badge)](#add-your-game)
-[![Latest windows release](https://img.shields.io/badge/Latest%20Windows%20Release-brightgreen?style=for-the-badge)](https://github.com/Owenb135/THE-MULTIVERSE/releases/tag/v1.3.7-w) 
+[![Add your game](https://img.shields.io/badge/Add%20your%20game!-brightgreen?style=for-the-badge)](#add-your-game)
+[![Latest windows release](https://img.shields.io/badge/Latest%20Windows%20Release-brightgreen?style=for-the-badge)](https://github.com/Owenb135/THE-MULTIVERSE/releases/tag/v1.3.7-w)
+
 # 🌌 THE MULTIVERSE (C++ Project)
 
 Welcome to **THE MULTIVERSE**, a console-based C++ game collection created as a fun open source project.  
@@ -16,6 +17,7 @@ This project is a **stable-stage multi-game program** built in C++.
 It runs in the terminal and uses text input/output for gameplay.
 
 The goal of this project is to:
+
 - Practice C++ programming
 - Build simple game logic systems
 - Experiment with interactive storytelling
@@ -55,40 +57,62 @@ updates are not currently supported.
 
 ## How to Run
 
-### Simple way
+### Windows
+
 1. Download the latest release from [GitHub Releases](https://github.com/Owenb135/THE-MULTIVERSE/releases)
-2. For Ubuntu/Debian, install the `.deb` package
-3. For Windows, just run the latest release `.exe` file
+2. Run `.exe` file
+
+### Simple way - Linux
+
+1. Download the latest release from [GitHub Releases](https://github.com/Owenb135/THE-MULTIVERSE/releases)
+2. For Ubuntu/Debian, install the `.deb` package, if you have Arch based or other Arch based distro, continue below
+
+### If binary not working or Arch based distro (linux)
+
+1. You can download .tar.gz
+2. Unzip it, go to the bin directory and run a binary file
+
+> Check the error and write it down into issues tab, please (Github account needed)
 
 ### Advanced way (optional)
+
 If you want to build from source instead of using a release executable:
-1. Make a folder named build
+
+1. Clone a repo and make a folder named build
 2. Run `cd build`
 3. Run `cmake .. && make`
 4. Run `./MultiverseApp` or `MultiverseApp.exe` if on Windows
 
 ### Build requirements
-These are only needed if you build from source. Windows users who download a release `.exe` do not need to install these dependencies.
+
+These are only needed if you build from source. (Windows users who download a release `.exe` do not need to install these dependencies.)
+
 - C++ compiler (g++, clang++, or Visual Studio)
 - C++11 or higher
 - CMake
-- SFML development libraries for audio (optional, reccomended)
+- SFML development libraries for audio (optional, recommended)
 
 ### Linux package install example
+
 For Ubuntu/Debian:
+
 ```bash
 sudo apt update
 sudo apt install build-essential cmake libsfml-dev
 ```
 
 ### Windows release usage
+
 For Windows users, no build is required.
+
 1. Download the latest release from [GitHub Releases](https://github.com/Owenb135/THE-MULTIVERSE/releases)
 2. Run the latest `.exe` file from the release
 
 ---
+
 ## Add Your Game
-If you would like to add you game go to the [games](https://github.com/Owenb135/THE-MULTIVERSE/discussions/7) disscussion to talk about it
+
+If you would like to add you game go to the [games](https://github.com/Owenb135/THE-MULTIVERSE/discussions/7) discussion to talk about it
 
 ## Good First Issues
 
@@ -97,18 +121,20 @@ Looking to make your first contribution? Check out our [Good First Issues](https
 Good luck, and happy contributing!
 
 ## ⚠️ Notes
+
 Input is case-sensitive in some areas.
 The program is text-based (no GUI).
 
 ---
-## Contrubutors:
+
+## Contrubutors
+
 <a href="https://github.com/owenb135/THE-MULTIVERSE/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=owenb135/THE-MULTIVERSE" alt="Contributors" />
 </a>
 
+## Credit
 
-
-## Credit:
 [Patorjk's TAAG Tool](https://patorjk.com/software/taag/) for ASCII text generation
 
 [@iibram](http://www.github.com/iibram) for the making of TetrisX
@@ -117,18 +143,21 @@ The program is text-based (no GUI).
 
 - "I have fun with coding because I can turn my imagination into reality."
      -Owen
+
 ---
+
 ## 🚀 Future Ideas
+
 - Save system
 - Better combat mechanics
 - Improved AI system
 - Cleaner UI/menu system
 - Better Code quality
+
 ## Legal
+
 (c) 2026 Owenb135
 
-
 This project is licensed under Apache 2.0.
-
 
 TetrisX is a project licensed under MIT.
