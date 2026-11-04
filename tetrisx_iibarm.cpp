@@ -1,4 +1,3 @@
-///Created by Owen0963///
 #include <array>
 #include <chrono>
 #include <cstdlib>
