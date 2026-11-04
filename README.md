@@ -2,7 +2,6 @@
 [![logo](https://img.shields.io/badge/DOWNLOAD%20-brightgreen?style=for-the-badge)](https://github.com/Owenb135/THE-MULTIVERSE/releases)
 [![How to run](https://img.shields.io/badge/How%20to%20run-brightgreen?style=for-the-badge)](#how-to-run)
 [![Add your game](https://img.shields.io/badge/Add%20your%20game!-brightgreen?style=for-the-badge)](#add-your-game)
-[![Latest windows release](https://img.shields.io/badge/Latest%20Windows%20Release-brightgreen?style=for-the-badge)](https://github.com/Owenb135/THE-MULTIVERSE/releases/tag/v1.3.7-w)
 
 # 🌌 THE MULTIVERSE (C++ Project)
 
@@ -39,6 +38,7 @@ Menu modules currently available in `multi.cpp`:
 - **[8] Reptor Tasks** — task mini-game module
 - **[9] Coder's Ttype** — typing-oriented module
 - **[10] TetrisX** - A Tetris game created by [@iibram](https://github.com/iibram) and upgraded by [@Owenb135](https://github.com/Owenb135)
+- **[11] Snake** - A simple Snake game using the same style as **TetrisX**
 
 Cross-cutting:
 
@@ -57,11 +57,6 @@ updates are not currently supported.
 
 ## How to Run
 
-### Windows
-
-1. Download the latest release from [GitHub Releases](https://github.com/Owenb135/THE-MULTIVERSE/releases)
-2. Run `.exe` file
-
 ### Simple way - Linux
 
 1. Download the latest release from [GitHub Releases](https://github.com/Owenb135/THE-MULTIVERSE/releases)
@@ -69,6 +64,7 @@ updates are not currently supported.
 
 ### If binary not working or Arch based distro (linux)
 
+1. Make sure you meet the build reqs below
 1. You can download .tar.gz
 2. Unzip it, go to the bin directory and run a binary file
 
@@ -81,7 +77,7 @@ If you want to build from source instead of using a release executable:
 1. Clone a repo and make a folder named build
 2. Run `cd build`
 3. Run `cmake .. && make`
-4. Run `./MultiverseApp` or `MultiverseApp.exe` if on Windows
+4. Run `./MultiverseApp`
 
 ### Build requirements
 
@@ -105,8 +101,9 @@ sudo apt install build-essential cmake libsfml-dev
 
 For Windows users, no build is required.
 
-1. Download the latest release from [GitHub Releases](https://github.com/Owenb135/THE-MULTIVERSE/releases)
+1. Download the latest release from [GitHub Releases](https://github.com/Owenb135/THE-MULTIVERSE/releases/tag/v1.3.7-w))
 2. Run the latest `.exe` file from the release
+3. NOTE: Windows is in great beta stage, it may not even look close to the Linux version.
 
 ---
 
@@ -153,6 +150,7 @@ The program is text-based (no GUI).
 - Improved AI system
 - Cleaner UI/menu system
 - Better Code quality
+- Better music
 
 ## Legal
 
