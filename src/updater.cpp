@@ -1,186 +1,321 @@
 #include "updater.h"
 #include "core.h"
 
-#include <chrono>
-#include <cstdlib>
-#include <fstream>
 #include <iostream>
-#include <sstream>
 #include <string>
-#include <thread>
 
-using namespace std::chrono_literals;
+#if defined(__linux__)
+#include <cctype>
+#include <cstdlib>
+#include <filesystem>
+#include <fstream>
+#include <sstream>
+#include <vector>
+#include <cerrno>
+#include <cstring>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
+#endif
 
-    // 2. Clear path pointing directly to your live manifest file on GitHub
-    static const std::string MANIFEST_URL = "https://raw.githubusercontent.com/Owenb135/THE-MULTIVERSE/refs/heads/main/upds/manifest.json";
+namespace {
+#if defined(__linux__)
+const std::string MANIFEST_URL =
+    "https://raw.githubusercontent.com/Owenb135/THE-MULTIVERSE/refs/heads/main/upds/manifest.json";
 
-    // Lightweight inline string locator to extract JSON values without heavy external libraries
-    std::string parse_json_value(const std::string& json, const std::string& key) {
-        size_t pos = json.find("\"" + key + "\"");
-        if (pos == std::string::npos) return "";
-        pos = json.find(":", pos);
-        size_t start = json.find("\"", pos);
-        size_t end = json.find("\"", start + 1);
-        if (start == std::string::npos || end == std::string::npos) return "";
-        return json.substr(start + 1, end - start - 1);
-    }
+std::string parse_json_value(const std::string& json, const std::string& key) {
+    size_t pos = json.find("\"" + key + "\"");
+    if (pos == std::string::npos) return "";
+    pos = json.find(':', pos + key.size() + 2);
+    if (pos == std::string::npos) return "";
+    pos = json.find_first_not_of(" \t\r\n", pos + 1);
+    if (pos == std::string::npos || json[pos] != '"') return "";
 
-    // Compare semantic versions (e.g., "1.3.3" vs "1.2.5")
-    // Returns: 1 if v1 > v2, -1 if v1 < v2, 0 if v1 == v2
-    int compare_versions(const std::string& v1, const std::string& v2) {
-        std::istringstream v1_stream(v1), v2_stream(v2);
-        int major1, minor1, patch1, major2, minor2, patch2;
-        char dot;
-
-        v1_stream >> major1 >> dot >> minor1 >> dot >> patch1;
-        v2_stream >> major2 >> dot >> minor2 >> dot >> patch2;
-
-        if (major1 != major2) return major1 > major2 ? 1 : -1;
-        if (minor1 != minor2) return minor1 > minor2 ? 1 : -1;
-        if (patch1 != patch2) return patch1 > patch2 ? 1 : -1;
-        return 0;
-    }
-
-    void handle_automatic_updates() {
-        std::cout << "[Updater] Connecting to GitHub update stream...\n";
-
-        // Download manifest.json from your branch
-        std::string downloadCmd = "wget -q \"" + MANIFEST_URL + "\" -O /tmp/manifest.json";
-        int status = system(downloadCmd.c_str());
-
-        if (status != 0) {
-            std::cout << "[Updater] Unable to reach GitHub updates. Launching offline mode.\n\n";
-            return;
+    std::string value;
+    for (++pos; pos < json.size(); ++pos) {
+        if (json[pos] == '"') return value;
+        if (json[pos] != '\\') {
+            value += json[pos];
+            continue;
         }
 
-        // Read the entire file into a C++ string stream
-        std::ifstream file("/tmp/manifest.json");
-        if (!file.is_open()) return;
-        std::string manifest((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
-        file.close();
+        if (++pos >= json.size()) return "";
+        switch (json[pos]) {
+        case '"': value += '"'; break;
+        case '\\': value += '\\'; break;
+        case '/': value += '/'; break;
+        case 'b': value += '\b'; break;
+        case 'f': value += '\f'; break;
+        case 'n': value += '\n'; break;
+        case 'r': value += '\r'; break;
+        case 't': value += '\t'; break;
+        default: return "";
+        }
+    }
+    return "";
+}
 
-        // Extract key pieces of information from the JSON string
-        std::string latest_version = parse_json_value(manifest, "latest_version");
-        std::string release_notes = parse_json_value(manifest, "release_notes");
+bool parse_version(const std::string& version, unsigned int parts[3]) {
+    std::istringstream input(version);
+    char dot1, dot2;
+    if (!(input >> parts[0] >> dot1 >> parts[1] >> dot2 >> parts[2]) ||
+        dot1 != '.' || dot2 != '.') {
+        return false;
+    }
+    return input.peek() == std::char_traits<char>::eof();
+}
 
-        // Clean up the temp manifest file
-        std::remove("/tmp/manifest.json");
+int compare_versions(const std::string& first, const std::string& second) {
+    unsigned int a[3], b[3];
+    if (!parse_version(first, a) || !parse_version(second, b)) return 0;
+    for (int i = 0; i < 3; ++i) {
+        if (a[i] != b[i]) return a[i] > b[i] ? 1 : -1;
+    }
+    return 0;
+}
 
-        // 3. Compare the version numbers!
-        int version_cmp = compare_versions(latest_version, get_version());
-        if (version_cmp > 0 && !latest_version.empty()) {
-            std::cout << "\n=============================================\n";
-            std::cout << "UPDATE AVAILABLE: New version v" << latest_version << " is ready!\n";
-            if (!release_notes.empty()) {
-                std::cout << "Changelog: " << release_notes << "\n";
-            }
-            std::cout << "=============================================\n";
-            std::cout << "Would you like to download and install this update? (y/n): ";
+class TemporaryDirectory {
+public:
+    TemporaryDirectory() {
+        char path[] = "/tmp/multiverse-update-XXXXXX";
+        char* created = mkdtemp(path);
+        if (created) path_ = created;
+    }
 
-            char choice;
-            std::cin >> choice;
-            if (choice == 'y' || choice == 'Y')
-            {
-              std::string platform_key = "ubuntu_deb";
+    ~TemporaryDirectory() { cleanup(); }
 
-#if defined(_WIN32)
-              platform_key = "windows_exe";
-#endif
+    const std::string& path() const { return path_; }
+    bool valid() const { return !path_.empty(); }
 
-              // Find the selected platform data block inside the manifest string
-              size_t plat_pos = manifest.find("\"" + platform_key + "\"");
-              if (plat_pos == std::string::npos) {
-                std::cout << "[Error] Platform settings missing from manifest. Launching game...\n\n";
-                return;
-              }
-              std::string plat_block = manifest.substr(plat_pos, manifest.find("}", plat_pos) - plat_pos);
+    void cleanup() {
+        if (path_.empty()) return;
+        std::error_code error;
+        std::filesystem::remove_all(path_, error);
+        if (error) {
+            std::cerr << "[Updater] Could not remove temporary update files from "
+                      << path_ << ": " << error.message() << '\n';
+        }
+        path_.clear();
+    }
 
-              std::string download_url = parse_json_value(plat_block, "url");
-              std::string filename = parse_json_value(plat_block, "filename");
+private:
+    std::string path_;
+};
 
-              if (download_url.empty() || filename.empty()) {
-                std::cout << "[Error] Failed to read download metadata from manifest. Launching game...\n\n";
-                return;
-              }
+int run_process(const std::vector<std::string>& arguments, std::string* output = nullptr) {
+    if (arguments.empty()) return -1;
 
-              std::cout << "[Updater] Downloading package via curl...\n";
-              std::string tmpPath = "/tmp/" + filename;
-              std::string download_cmd = "curl -fSL \"" + download_url + "\" -o " + tmpPath + " 2>/tmp/update_log.txt";
-              int progress_res = system(download_cmd.c_str());
+    int pipe_fds[2] = {-1, -1};
+    if (output && pipe(pipe_fds) != 0) {
+        std::cerr << "[Updater] Could not create a process output pipe: "
+                  << std::strerror(errno) << '\n';
+        return -1;
+    }
 
-              if (progress_res != 0) {
-                std::cout << "[Error] Download failed. See /tmp/update_log.txt for details.\n\n";
-                return;
-              }
+    const pid_t child = fork();
+    if (child < 0) {
+        if (output) {
+            close(pipe_fds[0]);
+            close(pipe_fds[1]);
+        }
+        std::cerr << "[Updater] Could not start " << arguments[0] << ": "
+                  << std::strerror(errno) << '\n';
+        return -1;
+    }
 
-              // Validate .deb file before attempting install
-              std::cout << "[Updater] Verifying downloaded package...\n";
-              std::string verify_cmd = "dpkg-deb -I " + tmpPath + " >/tmp/update_log.txt 2>&1";
-              int verify_res = system(verify_cmd.c_str());
-              if (verify_res != 0) {
-                std::cout << "[Error] Downloaded file is not a valid .deb. See /tmp/update_log.txt\n\n";
-                return;
-              }
+    if (child == 0) {
+        if (output) {
+            close(pipe_fds[0]);
+            if (dup2(pipe_fds[1], STDOUT_FILENO) < 0) _exit(126);
+            close(pipe_fds[1]);
+        }
+        std::vector<char*> argv;
+        argv.reserve(arguments.size() + 1);
+        for (const auto& argument : arguments) {
+            argv.push_back(const_cast<char*>(argument.c_str()));
+        }
+        argv.push_back(nullptr);
+        execvp(argv[0], argv.data());
+        _exit(errno == ENOENT ? 127 : 126);
+    }
 
-              std::cout << "[Updater] Launching background installer (will ask for authentication)...\n";
+    if (output) {
+        close(pipe_fds[1]);
+        char buffer[1024];
+        ssize_t count;
+        while ((count = read(pipe_fds[0], buffer, sizeof(buffer))) > 0) {
+            output->append(buffer, static_cast<size_t>(count));
+        }
+        close(pipe_fds[0]);
+    }
 
-#if defined(_WIN32)
-              // Windows: Run the installer executable silently
-              std::ofstream batch("apply_update.bat");
-              batch << "@echo off\n"
-                    << "timeout /t 1 /nobreak > nul\n"
-                    << "start /wait /tmp\\" << filename << " /SILENT\n"
-                    << "del \"%~f0\"\n";
-              batch.close();
-              system("start /b apply_update.bat");
-              exit(0);
-#else
-              // Create a robust installer script that attempts dpkg -i and falls back to apt-get -f install
-              std::ofstream sh("/tmp/apply_update.sh");
-              sh << "#!/bin/bash\n"
-                 << "set -e\n"
-                 << "touch /tmp/update_started.flag\n"
-                 << "# Try installing the package, record output to /tmp/update_log.txt\n"
-                 << "if dpkg -i \"" << tmpPath << "\" >/tmp/update_log.txt 2>&1; then\n"
-                 << "  echo \"dpkg install succeeded\" >> /tmp/update_log.txt\n"
-                 << "  touch /tmp/update_success.flag\n"
-                 << "else\n"
-                 << "  echo \"dpkg install failed; attempting to repair with apt-get -f install\" >> /tmp/update_log.txt\n"
-                 << "  apt-get update >> /tmp/update_log.txt 2>&1 || true\n"
-                 << "  apt-get -f install -y >> /tmp/update_log.txt 2>&1 || true\n"
-                 << "  # Try installing again after fixing deps\n"
-                 << "  if dpkg -i \"" << tmpPath << "\" >> /tmp/update_log.txt 2>&1; then\n"
-                 << "    touch /tmp/update_success.flag\n"
-                 << "  fi\n"
-                 << "fi\n"
-                 << "rm -f /tmp/update_started.flag\n"
-                 << "# Remove this script after running\n"
-                 << "rm -- \"$0\"\n";
-              sh.close();
+    int status = 0;
+    while (waitpid(child, &status, 0) < 0) {
+        if (errno == EINTR) continue;
+        std::cerr << "[Updater] Could not wait for " << arguments[0] << ": "
+                  << std::strerror(errno) << '\n';
+        return -1;
+    }
+    return WIFEXITED(status) ? WEXITSTATUS(status) : 128;
+}
 
-              std::remove("/tmp/update_started.flag");
-              system("chmod +x /tmp/apply_update.sh");
+bool download_file(const std::string& url, const std::string& destination) {
+    return run_process({"curl", "--fail", "--location", "--silent", "--show-error",
+                        "--retry", "2", "--connect-timeout", "10", "--max-time", "120",
+                        "--output", destination, url}) == 0;
+}
 
-              // Run via pkexec so the entire script runs with elevated privileges and prompts for auth
-              std::string run_cmd = "nohup pkexec /bin/bash /tmp/apply_update.sh >/dev/null 2>&1 &";
-              system(run_cmd.c_str());
+bool valid_deb_filename(const std::string& filename) {
+    if (filename.size() < 5 || filename.substr(filename.size() - 4) != ".deb") return false;
+    for (unsigned char ch : filename) {
+        if (!(std::isalnum(ch) || ch == '.' || ch == '_' || ch == '-')) return false;
+    }
+    return true;
+}
 
-              std::cout << "[Updater] Waiting for authentication terminal hook...\n";
+bool trusted_download_url(const std::string& url) {
+    return url.rfind(
+        "https://github.com/Owenb135/THE-MULTIVERSE/raw/refs/heads/main/upds/", 0) == 0 ||
+        url.rfind(
+        "https://raw.githubusercontent.com/Owenb135/THE-MULTIVERSE/refs/heads/main/upds/", 0) == 0;
+}
 
-              int timeout_counter = 0;
-              while (!std::ifstream("/tmp/update_started.flag") && timeout_counter < 30) {
-                  std::this_thread::sleep_for(100ms);
-                  timeout_counter++;
-              }
+bool valid_update_package(const std::string& package_path, const std::string& expected_version) {
+    std::string fields;
+    if (run_process({"dpkg-deb", "--field", package_path, "Package", "Version", "Architecture"},
+                    &fields) != 0) {
+        std::cerr << "[Updater] Downloaded file is not a valid Debian package.\n";
+        return false;
+    }
 
-              std::this_thread::sleep_for(500ms);
-              // Exit now so the installed system package can replace the binary if needed
-              exit(0);
-#endif
-            }
+    std::istringstream input(fields);
+    std::string package, version, architecture, extra;
+    if (!(input >> package >> version >> architecture) || input >> extra ||
+        package != "themultiverse" || version != expected_version) {
+        std::cerr << "[Updater] The downloaded package identity or version does not match "
+                     "the update manifest.\n";
+        return false;
+    }
+
+    std::string system_architecture;
+    if (run_process({"dpkg", "--print-architecture"}, &system_architecture) != 0) {
+        std::cerr << "[Updater] Could not determine this system's Debian architecture.\n";
+        return false;
+    }
+    while (!system_architecture.empty() &&
+           (system_architecture.back() == '\n' || system_architecture.back() == '\r')) {
+        system_architecture.pop_back();
+    }
+    if (architecture != "all" && architecture != system_architecture) {
+        std::cerr << "[Updater] Package architecture " << architecture
+                  << " does not match this system (" << system_architecture << ").\n";
+        return false;
+    }
+    return true;
+}
+
+void handle_linux_updates() {
+    std::cout << "[Updater] Checking for updates...\n";
+    TemporaryDirectory temporary_directory;
+    if (!temporary_directory.valid()) {
+        std::cerr << "[Updater] Could not create a private temporary directory.\n";
+        return;
+    }
+
+    const std::string manifest_path = temporary_directory.path() + "/manifest.json";
+    if (!download_file(MANIFEST_URL, manifest_path)) {
+        std::cout << "[Updater] Could not reach the update manifest; continuing offline.\n\n";
+        return;
+    }
+
+    std::ifstream manifest_file(manifest_path);
+    if (!manifest_file) {
+        std::cerr << "[Updater] Could not read the downloaded update manifest.\n";
+        return;
+    }
+    const std::string manifest((std::istreambuf_iterator<char>(manifest_file)),
+                               std::istreambuf_iterator<char>());
+
+    const std::string latest_version = parse_json_value(manifest, "latest_version");
+    const std::string release_notes = parse_json_value(manifest, "release_notes");
+    unsigned int latest_parts[3];
+    if (!parse_version(latest_version, latest_parts)) {
+        std::cerr << "[Updater] The update manifest contains an invalid version; continuing offline.\n";
+        return;
+    }
+
+    const int version_comparison = compare_versions(latest_version, get_version());
+    if (version_comparison <= 0) {
+        if (version_comparison == 0) {
+            std::cout << "[Updater] Version check passed. Core build (v"
+                      << get_version() << ") is active.\n\n";
         } else {
-            std::cout << "[Updater] Version check passed. Core build (v" << get_version() << ") is active.\n\n";
+            std::cerr << "[Updater] The manifest version is older than this build; "
+                         "ignoring it.\n";
         }
-        std::this_thread::sleep_for(3000ms);
         clear_screen();
+        return;
     }
+
+    std::cout << "\n=============================================\n"
+              << "UPDATE AVAILABLE: New version v" << latest_version << " is ready!\n";
+    if (!release_notes.empty()) std::cout << "Changelog: " << release_notes << '\n';
+    std::cout << "=============================================\n"
+              << "Would you like to download and install this update? (y/n): ";
+
+    char choice = 'n';
+    if (!(std::cin >> choice) || (choice != 'y' && choice != 'Y')) {
+        clear_screen();
+        return;
+    }
+
+    const size_t platform_position = manifest.find("\"ubuntu_deb\"");
+    const size_t block_start = platform_position == std::string::npos
+        ? std::string::npos : manifest.find('{', platform_position);
+    const size_t block_end = block_start == std::string::npos
+        ? std::string::npos : manifest.find('}', block_start);
+    if (block_end == std::string::npos) {
+        std::cerr << "[Updater] Debian package settings are missing from the manifest.\n";
+        return;
+    }
+    const std::string platform_block = manifest.substr(block_start, block_end - block_start + 1);
+    const std::string download_url = parse_json_value(platform_block, "url");
+    const std::string filename = parse_json_value(platform_block, "filename");
+    if (!trusted_download_url(download_url) || !valid_deb_filename(filename)) {
+        std::cerr << "[Updater] The manifest contains invalid or untrusted package download settings.\n";
+        return;
+    }
+
+    const std::string package_path = temporary_directory.path() + "/" + filename;
+    std::cout << "[Updater] Downloading Debian package...\n";
+    if (!download_file(download_url, package_path)) {
+        std::cerr << "[Updater] Package download failed; the installed version was not changed.\n";
+        return;
+    }
+    if (!valid_update_package(package_path, latest_version)) return;
+
+    std::cout << "[Updater] Starting the system package installer. Authenticate if prompted.\n";
+    const std::vector<std::string> install_command = geteuid() == 0
+        ? std::vector<std::string>{"/usr/bin/apt", "install", "-y", "--", package_path}
+        : std::vector<std::string>{"pkexec", "/usr/bin/apt", "install", "-y", "--", package_path};
+    const int install_status = run_process(install_command);
+    if (install_status != 0) {
+        std::cerr << "[Updater] Installation did not complete (exit status "
+                  << install_status << "); continuing with the installed version.\n";
+        return;
+    }
+
+    temporary_directory.cleanup();
+    std::cout << "[Updater] Update installed successfully. Restart the application to use it.\n";
+    std::exit(0);
+}
+#endif
+}
+
+void handle_automatic_updates() {
+#if defined(__linux__)
+    handle_linux_updates();
+#else
+    std::cout << "[Updater] Automatic package updates are currently supported on Linux only.\n\n";
+#endif
+}

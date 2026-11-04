@@ -52,6 +52,9 @@ set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "The Multiverse Game")
 set(CPACK_PACKAGE_VENDOR "TheMultiverse")
 set(CPACK_PACKAGE_INSTALL_DIRECTORY "TheMultiverse")
 
+# Include runtime library dependencies and the tools used by the Linux updater.
+set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "curl, pkexec")
 
 # Essential for Ubuntu/Linux installers
 set(CPACK_GENERATOR "DEB;RPM;TGZ;NSIS")

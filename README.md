@@ -42,8 +42,14 @@ Cross-cutting:
 
 - Multi-module selection menu at startup
 - Background music via SFML (`rsc/music/`)
-- Optional automatic update check from the release manifest
+- Optional self-update for compatible Debian/Ubuntu `.deb` installations
 
+The Linux updater checks the project manifest, validates the downloaded package's
+name, version, and architecture, then uses APT with an authentication prompt to
+install it. It requires internet access, `curl`, `dpkg-deb`, APT, and `pkexec`
+(plus an available PolicyKit authentication agent for graphical prompts).
+Updates are offered only when the manifest version is newer. Windows automatic
+updates are not currently supported.
 
 ---
 
@@ -126,4 +132,3 @@ This project is licensed under Apache 2.0.
 
 
 TetrisX is a project licensed under MIT.
-
