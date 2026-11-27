@@ -76,10 +76,17 @@ updates are not currently supported.
 
 If you want to build from source instead of using a release executable:
 
-1. Clone a repo and make a folder named build
-2. Run `cd build`
-3. Run `cmake .. && make`
-4. Run `./MultiverseApp`
+```bash
+git clone https://github.com/Owenb135/THE-MULTIVERSE.git
+cd THE-MULTIVERSE
+cmake -S . -B .build
+cmake --build .build
+./.build/MultiverseApp
+```
+
+SFML 2 audio support is optional. If a compatible SFML 2 development package is
+not found (including when only SFML 3 is installed), the project builds without
+audio.
 
 ### Build requirements
 
@@ -87,7 +94,7 @@ These are only needed if you build from source. (Windows users who download a re
 
 - C++20 compiler (g++, clang++, or Visual Studio)
 - CMake 3.12 or higher
-- SFML development libraries for audio (optional, recommended)
+- SFML 2 development libraries for audio (optional; SFML 3 is not yet supported)
 
 ### Linux package install example
 
@@ -97,6 +104,9 @@ For Ubuntu/Debian:
 sudo apt update
 sudo apt install build-essential cmake libsfml-dev
 ```
+
+On distributions where `libsfml-dev` provides SFML 3, the application still
+builds, but without audio. Install an SFML 2 development package to enable audio.
 
 ### Windows release usage
 

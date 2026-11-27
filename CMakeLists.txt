@@ -7,8 +7,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
 
 
-# 1. Find the SFML Audio package
-find_package(SFML COMPONENTS audio QUIET)
+# 1. Find SFML 2 Audio; SFML 3 is not compatible with this codebase yet.
+find_package(SFML 2 COMPONENTS audio QUIET)
 
 # Define source files
 set(SOURCES

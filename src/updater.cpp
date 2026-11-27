@@ -181,17 +181,30 @@ bool trusted_download_url(const std::string& url) {
 }
 
 bool valid_update_package(const std::string& package_path, const std::string& expected_version) {
-    std::string fields;
-    if (run_process({"dpkg-deb", "--field", package_path, "Package", "Version", "Architecture"},
-                    &fields) != 0) {
+    std::string package;
+    std::string version;
+    std::string architecture;
+    if (run_process({"dpkg-deb", "--field", package_path, "Package"}, &package) != 0 ||
+        run_process({"dpkg-deb", "--field", package_path, "Version"}, &version) != 0 ||
+        run_process({"dpkg-deb", "--field", package_path, "Architecture"}, &architecture) != 0) {
         std::cerr << "[Updater] Downloaded file is not a valid Debian package.\n";
         return false;
     }
 
-    std::istringstream input(fields);
-    std::string package, version, architecture, extra;
-    if (!(input >> package >> version >> architecture) || input >> extra ||
-        package != "themultiverse" || version != expected_version) {
+    const auto trim = [](std::string& value) {
+        while (!value.empty() && std::isspace(static_cast<unsigned char>(value.back()))) {
+            value.pop_back();
+        }
+        size_t first = 0;
+        while (first < value.size() && std::isspace(static_cast<unsigned char>(value[first]))) {
+            ++first;
+        }
+        value.erase(0, first);
+    };
+    trim(package);
+    trim(version);
+    trim(architecture);
+    if (package != "themultiverse" || version != expected_version || architecture.empty()) {
         std::cerr << "[Updater] The downloaded package identity or version does not match "
                      "the update manifest.\n";
         return false;
@@ -202,10 +215,7 @@ bool valid_update_package(const std::string& package_path, const std::string& ex
         std::cerr << "[Updater] Could not determine this system's Debian architecture.\n";
         return false;
     }
-    while (!system_architecture.empty() &&
-           (system_architecture.back() == '\n' || system_architecture.back() == '\r')) {
-        system_architecture.pop_back();
-    }
+    trim(system_architecture);
     if (architecture != "all" && architecture != system_architecture) {
         std::cerr << "[Updater] Package architecture " << architecture
                   << " does not match this system (" << system_architecture << ").\n";
