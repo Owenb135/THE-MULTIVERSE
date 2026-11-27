@@ -1,7 +1,7 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.12)
 project(TheMultiverse)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Point CPack to your copyright/license file
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
@@ -12,6 +12,7 @@ find_package(SFML COMPONENTS audio QUIET)
 
 # Define source files
 set(SOURCES
+	src/TetrisX.cpp
     src/multiverse_main.cpp
     src/core.cpp
     src/audio.cpp
@@ -21,10 +22,9 @@ set(SOURCES
     src/game_modules.cpp
     src/SnakeGame.cpp
     src/menu.cpp
-    test.cpp
-    reptor-tasks.cpp
-    "Coder's Ttype.cpp"
-    tetrisx_iibarm.cpp
+    src/test.cpp
+    src/reptor-tasks.cpp
+    "src/Coder's Ttype.cpp"
 )
 
 # Create the application
@@ -48,16 +48,20 @@ set(CPACK_PACKAGE_NAME "TheMultiverse")
 set(CPACK_PACKAGE_VERSION "1.4.0")
 set(CPACK_PACKAGE_CONTACT "Owen0963/Owenb135")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "The Multiverse Game")
-# Add these two lines to force CPack's staging folders to match your project name
 set(CPACK_PACKAGE_VENDOR "TheMultiverse")
 set(CPACK_PACKAGE_INSTALL_DIRECTORY "TheMultiverse")
 
-# Include runtime library dependencies and the tools used by the Linux updater.
+# Include runtime library dependencies for Debian packages.
 set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
-set(CPACK_DEBIAN_PACKAGE_DEPENDS "curl, pkexec")
+set(CPACK_DEBIAN_PACKAGE_NAME "themultiverse")
 
-# Essential for Ubuntu/Linux installers
-set(CPACK_GENERATOR "DEB;TGZ;NSIS")
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+	set(CPACK_GENERATOR "DEB;TGZ;RPM")
+elseif(WIN32)
+	set(CPACK_GENERATOR "NSIS")
+else()
+	set(CPACK_GENERATOR "TGZ")
+endif()
 
 # Tell CPack where to install your files on the user's system
 install(TARGETS MultiverseApp DESTINATION bin)
@@ -66,11 +70,8 @@ install(FILES Multiverse.desktop DESTINATION share/applications)
 
 # 3. Install your specific music files from rsc/music directory
 install(FILES 
-    "rsc/music/kontraa-no-sleep-hiphop-music.mp3"
+    "rsc/music/chiptune.mp3"
     "rsc/music/watermello-phonk-phonk-music.mp3"
     DESTINATION share/TheMultiverse/music
 )
-# --- Add this right above include(CPack) ---
-set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}")
-
 include(CPack)

@@ -45,6 +45,7 @@ Cross-cutting:
 - Multi-module selection menu at startup
 - Background music via SFML (`rsc/music/`)
 - Optional self-update for compatible Debian/Ubuntu `.deb` installations
+- Linux CPack outputs: `.deb`, `.rpm`, and `.tar.gz`
 
 The Linux updater checks the project manifest, validates the downloaded package's
 name, version, and architecture, then uses APT with an authentication prompt to
@@ -59,14 +60,15 @@ updates are not currently supported.
 
 ### Simple way - Linux
 
-1. Download the latest release from [GitHub Releases](https://github.com/Owenb135/THE-MULTIVERSE/releases)
-2. For Ubuntu/Debian, install the `.deb` package, if you have Arch based or other Arch based distro, continue below
+1. Download the package matching your distribution from [GitHub Releases](https://github.com/Owenb135/THE-MULTIVERSE/releases).
+2. Use `.deb` on Debian/Ubuntu, `.rpm` on RPM-based distributions, or `.tar.gz` for manual installation.
+   The automatic updater currently supports Debian/Ubuntu `.deb` installations only.
 
-### If binary not working or Arch based distro (linux)
+### Manual Linux installation
 
-1. Make sure you meet the build reqs below
-1. You can download .tar.gz
-2. Unzip it, go to the bin directory and run a binary file
+1. Extract the `.tar.gz` package.
+2. Run `bin/MultiverseApp` from the extracted directory.
+3. If the binary reports missing shared libraries, install the matching runtime libraries for your distribution or build from source.
 
 > Check the error and write it down into issues tab, please (Github account needed)
 
@@ -83,9 +85,8 @@ If you want to build from source instead of using a release executable:
 
 These are only needed if you build from source. (Windows users who download a release `.exe` do not need to install these dependencies.)
 
-- C++ compiler (g++, clang++, or Visual Studio)
-- C++11 or higher
-- CMake
+- C++20 compiler (g++, clang++, or Visual Studio)
+- CMake 3.12 or higher
 - SFML development libraries for audio (optional, recommended)
 
 ### Linux package install example

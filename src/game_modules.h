@@ -5,3 +5,4 @@
 void gamer(sf::Music& bgMusic);
 void r11(sf::Music& bgMusic);
 void snake_game();
+void tetris_game();

@@ -2,6 +2,7 @@
 #include "audio.h"
 #include "external_modules.h"
 #include "SnakeGame.h"
+#include "TetrisX.h"
 
 #include <chrono>
 #include <iostream>
@@ -13,9 +14,13 @@ void snake_game() {
     SnakeGame newGame;
 }
 
+void tetris_game() {
+    TetrisX newGame;
+}
+
 void r11(sf::Music& bgMusic) {
     bgMusic.setLoop(true);
-    playTrack(bgMusic, "watermello-phonk-phonk-music.mp3");
+    playTrack(bgMusic, "chiptune.mp3");
     r10();
 }
 

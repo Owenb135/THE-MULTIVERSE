@@ -19,7 +19,7 @@ int main() {
 
     sf::Music bgMusic;
     bgMusic.setLoop(true);
-    playTrack(bgMusic, "kontraa-no-sleep-hiphop-music.mp3");
+    playTrack(bgMusic, "chiptune.mp3");
 
     std::cout
         << R"(╦ ╦┌─┐┬  ┌─┐┌─┐┌┬┐┌─┐  ┌┬┐┌─┐  ┌┬┐┬ ┬┌─┐  ┌┬┐┬ ┬┬ ┌┬┐┬┬  ┬┌─┐┬─┐┌─┐┌─┐
@@ -88,7 +88,7 @@ int main() {
             clear_screen();
         } else if (game == 10) {
             clear_screen();
-            startup();
+            tetris_game();
             clear_screen();
         } else if (game == 11) {
             clear_screen();
