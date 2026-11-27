@@ -1,6 +1,6 @@
 {
-  "latest_version": "1.4.0",
-  "release_notes": "Version 1.4.0 updates the game build and Linux packaging. TetrisX now launches directly from the main menu instead of opening a separate terminal process, and the project uses C++20 for its ranges and views features. Linux packaging now supports .deb, .rpm, and .tar.gz formats. The opening soundtrack is now chiptune.mp3, and audio lookup supports installed packages, extracted archives, and source-tree runs.",
+  "latest_version": "1.4.1",
+  "release_notes": "Version 1.4.1 updates the game build and Linux packaging. TetrisX now launches directly from the main menu instead of opening a separate terminal process, and the project uses C++20 for its ranges and views features. Linux packaging now supports .deb, .rpm, and .tar.gz formats. The opening soundtrack is now chiptune.mp3, and audio lookup supports installed packages, extracted archives, and source-tree runs.",
   "platforms": {
     "ubuntu_deb": {
       "url": "https://github.com/Owenb135/THE-MULTIVERSE/raw/refs/heads/main/upds/build.deb",

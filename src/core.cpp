@@ -6,7 +6,7 @@
 #include <iostream>
 
 namespace {
-const std::string CURRENT_VERSION = "1.4.0";
+const std::string CURRENT_VERSION = "1.4.1";
 }
 
 const std::string& get_version() {

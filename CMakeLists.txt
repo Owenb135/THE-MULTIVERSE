@@ -45,7 +45,7 @@ target_compile_definitions(MultiverseApp PRIVATE
 
 # --- CPack Configuration ---
 set(CPACK_PACKAGE_NAME "TheMultiverse")
-set(CPACK_PACKAGE_VERSION "1.4.0")
+set(CPACK_PACKAGE_VERSION "1.4.1")
 set(CPACK_PACKAGE_CONTACT "Owen0963/Owenb135")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "The Multiverse Game")
 set(CPACK_PACKAGE_VENDOR "TheMultiverse")
